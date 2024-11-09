@@ -1,0 +1,3 @@
+1|po|po|14.11.2024.|po|po|po|po|2|BUDGET|12
+5|Rad|iradi|12.11.2024.|radi|radi|radi|radi|20|SELF_FINANCE|2
+6|po123|po|28.11.2024.|po|90|90|90|1|BUDGET|900

@@ -1,0 +1,38 @@
+﻿<Window x:Class="StudentService.Gui.ViewStudents"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudentService.Gui"
+        mc:Ignorable="d"
+        Title="ViewStudents" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Button panel -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <Button Content="Create Student" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Update Student" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Delete Student" Click="Button_ClickDelete" Width="100" />
+        </StackPanel>
+
+        <!-- DataGrid to display the list of students -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth}" />
+                <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                <DataGridTextColumn Header="Index" Binding="{Binding Index}" />
+                <DataGridTextColumn Header="Year of Study" Binding="{Binding YearOfStudy}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="Average Grade" Binding="{Binding AvgGrade}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
