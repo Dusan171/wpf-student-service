@@ -1,6 +1,7 @@
 ﻿using StudentService.Model;
 using StudentService.Serialization;
 using System.Collections.Generic;
+using StudentService.Observer;
 
 namespace StudentService.DAO
 {
@@ -9,10 +10,13 @@ namespace StudentService.DAO
         private readonly List<Department> _departments;
         private readonly Storage<Department> _storage;
 
+        public DAOSubject DepartmentSubject;
+
         public DepartmentDao()
         {
             _storage = new Storage<Department>("departments.txt");
             _departments = _storage.Load();
+            DepartmentSubject = new DAOSubject();
         }
 
         private int GenerateId()
@@ -26,6 +30,7 @@ namespace StudentService.DAO
             department.Id = GenerateId();
             _departments.Add(department);
             _storage.Save(_departments);
+            DepartmentSubject.NotifyObservers();
             return department;
         }
 
@@ -40,6 +45,7 @@ namespace StudentService.DAO
             oldDepartment.Professors = department.Professors;
 
             _storage.Save(_departments);
+            DepartmentSubject.NotifyObservers();
             return oldDepartment;
         }
 
@@ -50,6 +56,7 @@ namespace StudentService.DAO
 
             _departments.Remove(department);
             _storage.Save(_departments);
+            DepartmentSubject.NotifyObservers();
             return department;
         }
 

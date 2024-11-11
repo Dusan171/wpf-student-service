@@ -11,7 +11,7 @@ namespace StudentService.Model
 {
     public class Subject : ISerializable
     {
-        public int Id { get; set; }
+        public int Id { get; set;}
         public string Code { get; set; }
         public string Name { get; set; }
         public Semester Semester { get; set; }

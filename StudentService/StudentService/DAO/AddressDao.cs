@@ -1,4 +1,5 @@
 ﻿using StudentService.Model;
+using StudentService.Observer;
 using StudentService.Serialization;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,12 @@ namespace StudentService.DAO
         private readonly List<Adress> _adresses;
         private readonly Storage<Adress> _storage;
 
-
+        public DAOSubject AdressStudent;
         public AddressDao()
         {
             _storage = new Storage<Adress>("adresses.txt");
             _adresses = _storage.Load();
+            AdressStudent = new DAOSubject();
         }
 
         private int GenerateId()
@@ -33,6 +35,7 @@ namespace StudentService.DAO
             adress.Id = GenerateId();
             _adresses.Add(adress);
             _storage.Save(_adresses);
+            AdressStudent.NotifyObservers();
             return adress;
         }
 
@@ -49,6 +52,7 @@ namespace StudentService.DAO
 
 
             _storage.Save(_adresses);
+             AdressStudent.NotifyObservers();
             return oldAdress;
         }
 
@@ -59,6 +63,7 @@ namespace StudentService.DAO
 
             _adresses.Remove(adress);
             _storage.Save(_adresses);
+            AdressStudent.NotifyObservers();
             return adress;
         }
 
