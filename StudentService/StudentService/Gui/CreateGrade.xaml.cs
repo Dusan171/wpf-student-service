@@ -75,7 +75,7 @@ namespace StudentService.Gui
         }
         public CreateDAOGrade(GradeDao gradeDao)
         {
-            InitializeComponent();
+            //InitializeComponent(); //crveno
             this.gradeDao = gradeDao;
             DataContext = this;// crveno u svakom
 

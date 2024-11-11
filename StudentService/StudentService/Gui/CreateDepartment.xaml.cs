@@ -101,7 +101,7 @@ namespace StudentService.Gui
         {
             InitializeComponent();
             this.departmentDao = departmentDao;
-            DataContext = this;
+           // DataContext = this; //crveno
         }
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {

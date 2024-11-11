@@ -1,9 +1,7 @@
 ﻿using StudentService.DAO;
 using StudentService.Model;
-using StudentService.Model.Enums;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -17,81 +15,67 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml.Linq;
-
-using StudentService.Model.Enums;
-using StudentService.Model;
-using System.ComponentModel;
-using StudentService.DAO;
-using System.Collections.ObjectModel;
-using System.Net;
-
 
 namespace StudentService.Gui
 {
     /// <summary>
-    /// Interaction logic for CreateAdress.xaml
+    /// Interaction logic for UpdateAddress.xaml
     /// </summary>
-    public partial class CreateDAOAdress : Window, INotifyPropertyChanged
+    public partial class UpdateAddress : Window, INotifyPropertyChanged
     {
-        private AddressDao adressDao;
-
-
-        private int id;
+        private readonly AddressDao adressDao;
+        private Adress currentAddres;
         public int Id
         {
-            get => id;
+            get => currentAddres.Id;
             set
             {
-                id = value;
+                currentAddres.Id = value;
                 OnPropertyChanged(nameof(Id));
             }
         }
-        private string street;
         public string Street
         {
-            get => street;
+            get => currentAddres.Street;
             set
             {
-                street = value;
+                currentAddres.Street = value;
                 OnPropertyChanged(nameof(Street));
             }
         }
-        private int number;
         public int Number
         {
-            get => number;
+            get => currentAddres.Number;
             set
             {
-                number = value;
+                currentAddres.Number = value;
                 OnPropertyChanged(nameof(Number));
             }
         }
-        private string town;
         public string Town
         {
-            get=> town;
+            get => currentAddres.Town;
             set
             {
-                town = value;
+                currentAddres.Town = value;
                 OnPropertyChanged(nameof(Town));
             }
         }
-        private string country;
         public string Country
         {
-            get=> country;
+            get => currentAddres.Country;
             set
             {
-                country = value;
+                currentAddres.Country = value;
                 OnPropertyChanged(nameof(Country));
             }
         }
-        public CreateDAOAdress(AddressDao adressDao)
+        public UpdateAddress(Adress address,AddressDao adressDao)
         {
-            //InitializeComponent(); //CRVENO
+            InitializeComponent(); 
             this.adressDao = adressDao;
-            DataContext = this;
+            this.currentAddres = address;
+            //DataContext = this; //crveno
         }
         /*
        *    public int Id { get; set; }
@@ -103,7 +87,7 @@ namespace StudentService.Gui
         private void ClearFields()
         {
             Id = 0;
-            Street = string.Empty; 
+            Street = string.Empty;
             Number = 0;
             Town = string.Empty;
             Country = string.Empty;
@@ -119,28 +103,22 @@ namespace StudentService.Gui
         // {
         //   InitializeComponent();
         // }
-        private void AddAdressButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateAdressButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Create a new Student instance directly from properties
-                Adress newAdress = new Adress
-                {
-                    Id = id,
-                    Street=Street,
-                    Number=Number,
-                    Town=Town,
-                    Country=Country
-                };
-
-                adressDao.Create(newAdress);
-                ClearFields();
+                adressDao.UpdateVehicle(currentAddres);
+                MessageBox.Show("Professor updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+               // Close(); //crveno
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-      
+        // public UpdateAddress()
+        // {
+        //    InitializeComponent();
+        //}
     }
 }
