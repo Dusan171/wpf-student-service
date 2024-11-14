@@ -1,6 +1,7 @@
 ﻿using StudentService.Model;
 using StudentService.Serialization;
 using System.Collections.Generic;
+using StudentService.Observer;
 
 namespace StudentService.DAO
 {
@@ -8,6 +9,8 @@ namespace StudentService.DAO
     {
         private readonly List<Grade> _grades;
         private readonly Storage<Grade> _storage;
+
+        public DAOSubject StudentGrade;
 
         public GradeDao()
         {

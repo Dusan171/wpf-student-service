@@ -21,7 +21,7 @@ namespace StudentService.Gui
     /// <summary>
     /// Interaction logic for UpdateAddress.xaml
     /// </summary>
-    public partial class UpdateAddress : Window, INotifyPropertyChanged
+    public partial class UpdateDAOAddress : Window, INotifyPropertyChanged
     {
         private readonly AddressDao adressDao;
         private Adress currentAddres;
@@ -70,9 +70,9 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Country));
             }
         }
-        public UpdateAddress(Adress address,AddressDao adressDao)
+        public UpdateDAOAddress(Adress address,AddressDao adressDao)
         {
-            InitializeComponent(); 
+            //InitializeComponent(); crveno nakon sto sam promijenio ime u UpdateDAOAddress
             this.adressDao = adressDao;
             this.currentAddres = address;
             //DataContext = this; //crveno
