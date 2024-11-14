@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.IO;
+//using System.Diagnostics.Metrics;
+//using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StudentService.Serialization;
-using StudentService.Model.Enums;
+//using StudentService.Model.Enums;
 
 namespace StudentService.Model
 {

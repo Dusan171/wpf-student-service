@@ -22,14 +22,14 @@ namespace StudentService.Gui
     /// <summary>
     /// Interaction logic for ViewDepartment.xaml
     /// </summary>
-    public partial class ViewDepartment : Window, IObserver
+    public partial class ViewDAODepartment : Window, IObserver
     {
         public ObservableCollection<Department> Departments { get; set; }
         public Department SelectedDepartment { get; set; }
         private DepartmentDao departmentDao;
-        public ViewDepartment()
+        public ViewDAODepartment()
         {
-            InitializeComponent();
+            //InitializeComponent(); //CRVENO
             departmentDao = new DepartmentDao();
             Departments = new ObservableCollection<Department>();
             Update();
@@ -48,7 +48,7 @@ namespace StudentService.Gui
         private void Button_ClickCreate(object sender, RoutedEventArgs e)
         {
             CreateDepartment createDepartment = new CreateDepartment(departmentDao);
-            createDepartment.Show();
+           // createDepartment.Show();//crveno
         }
         private void Button_ClickUpdate(object sender, RoutedEventArgs e)
         {
@@ -57,7 +57,7 @@ namespace StudentService.Gui
                 return;
             }
             UpdateDepartment updateDepartment = new UpdateDepartment(SelectedDepartment, departmentDao);
-            updateDepartment.Show();
+           // updateDepartment.Show(); //crveno
 
         }
         private void Button_ClickDelete(object sender, RoutedEventArgs e)

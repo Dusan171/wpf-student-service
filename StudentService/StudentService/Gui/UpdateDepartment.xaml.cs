@@ -17,9 +17,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using StudentService.Model.Enums;
-using StudentService.Model;
-using System.ComponentModel;
-using StudentService.DAO;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Security.RightsManagement;
@@ -31,10 +28,6 @@ namespace StudentService.Gui
     /// </summary>
     public partial class UpdateDepartment : Window, INotifyPropertyChanged
     {
-        //public UpdateDepartment()
-        //{
-        //   InitializeComponent();
-        //}
         private readonly DepartmentDao departmentDao;
         private Department currentDepartment;
         public int Id
@@ -73,15 +66,6 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(HeadProfessor));
             }
         }
-
-        /*
-         *  public int Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public Professor HeadProfessor { get; set; }
-        public List<Professor> Professors { get; set; }
-
-         */
   
         public event PropertyChangedEventHandler PropertyChanged;
 
