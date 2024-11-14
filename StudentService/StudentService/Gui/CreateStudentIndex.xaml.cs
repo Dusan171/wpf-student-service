@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿
+//using System.Collections.Generic;
+//using System.Collections.Specialized;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using System.Windows.Controls;
+//using System.Windows.Data;
+//using System.Windows.Documents;
+//using System.Windows.Input;
+//using System.Windows.Media;
+//using System.Windows.Media.Imaging;
+//using System.Windows.Navigation;
+//using System.Windows.Shapes;
+//using System.ComponentModel;
+//using System.Security.RightsManagement;
 
+using System.ComponentModel;
+using System.Windows;
 using StudentService.Model.Enums;
 using StudentService.Model;
-using System.ComponentModel;
 using StudentService.DAO;
 using System.Collections.ObjectModel;
 using System.Net;
-using System.Security.RightsManagement;
 
 namespace StudentService.Gui
 {
@@ -83,7 +83,7 @@ namespace StudentService.Gui
         }
         public CreateStudentIndex(IndexDao indexDao)
         {
-           // InitializeComponent(); crveno
+           // InitializeComponent(); //crveno
             this.indexDao = indexDao;
             DataContext = this;
 
@@ -115,19 +115,9 @@ namespace StudentService.Gui
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error adding index: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        /*
-         *  public int Id { get; set; }
-        public string CourseCode { get; set; }
-        public int RegisterNumber { get; set; }
-        public int RegisterYear { get; set; }
-
-         */
-       // public CreateStudentIndex()
-       // {
-           // InitializeComponent();
-      // }
+       
     }
 }

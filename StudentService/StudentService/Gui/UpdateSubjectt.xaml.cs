@@ -24,15 +24,10 @@ namespace StudentService.Gui
     /// <summary>
     /// Interaction logic for UpdateSubjectt.xaml
     /// </summary>
-    public partial class UpdateSubjectt : Window, INotifyPropertyChanged
+    public partial class UpdateDAOSubjectt : Window, INotifyPropertyChanged
     {
-        public UpdateSubjectt()
-        {
-            InitializeComponent();
-        }
         private readonly SubjectDao subjectDao;
         private Subject currentSubject;
-
         public string Name
         {
             get => currentSubject.Name;
@@ -99,12 +94,12 @@ namespace StudentService.Gui
             }
         }
         public ObservableCollection<Semester> Semesters { get; set; }
-        public UpdateSubjectt(Subject subject,SubjectDao subjectDao)
+        public UpdateDAOSubjectt(Subject subject,SubjectDao subjectDao)
         {
-            InitializeComponent();
+            //InitializeComponent();//CRVENO
             this.subjectDao = subjectDao;
             this.currentSubject = subject;
-           // DataContext = this; //??CRVENO
+            DataContext = this; 
 
             Semesters = new ObservableCollection<Semester>();
             Semesters.Add(Semester.SUMMER);

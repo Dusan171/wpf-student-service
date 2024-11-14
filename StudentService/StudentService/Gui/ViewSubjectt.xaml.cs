@@ -49,7 +49,7 @@ namespace StudentService.Gui
         private void Button_ClickCreate(object sender, RoutedEventArgs e)
         {
             CreateSubject createSubjectt = new CreateSubject(subjectDao);
-            createSubjectt.Show();
+           //createSubjectt.Show();//crveno
         }
 
         private void Button_ClickUpdate(object sender, RoutedEventArgs e)
@@ -59,7 +59,7 @@ namespace StudentService.Gui
                 MessageBox.Show("Please select a professor to update.");
                 return;
             }
-            UpdateSubjectt updateSubject = new UpdateSubjectt(SelectedSubject, subjectDao);
+            UpdateDAOSubjectt updateSubject = new UpdateDAOSubjectt(SelectedSubject, subjectDao);
             updateSubject.Show();
 
         }

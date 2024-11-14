@@ -10,12 +10,13 @@ namespace StudentService.DAO
         private readonly List<StudentIndex> _indexes;
         private readonly Storage<StudentIndex> _storage;
 
-        public DAOSubject Indexstudent;
+        public DAOSubject IndexStudent;
 
         public IndexDao()
         {
             _storage = new Storage<StudentIndex>("indexes.txt");
             _indexes = _storage.Load();
+            IndexStudent = new DAOSubject();
         }
 
         private int GenerateId()
@@ -29,6 +30,7 @@ namespace StudentService.DAO
             index.Id = GenerateId();
             _indexes.Add(index);
             _storage.Save(_indexes);
+            IndexStudent.NotifyObservers();
             return index;
         }
 
@@ -42,6 +44,7 @@ namespace StudentService.DAO
             oldIndex.RegisterYear = index.RegisterYear;
 
             _storage.Save(_indexes);
+            IndexStudent.NotifyObservers();
             return oldIndex;
         }
 
@@ -52,6 +55,7 @@ namespace StudentService.DAO
 
             _indexes.Remove(index);
             _storage.Save(_indexes);
+            IndexStudent.NotifyObservers();
             return index;
         }
 

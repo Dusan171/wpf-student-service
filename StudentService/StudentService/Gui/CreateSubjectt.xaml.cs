@@ -112,7 +112,7 @@ namespace StudentService.Gui
         {
             InitializeComponent();
             this.subjectDao = subjectDao;
-           // DataContext = this; //??CRVENO
+            //DataContext = this; //??CRVENO
 
             Semesters = new ObservableCollection<Semester>();
             Semesters.Add(Semester.SUMMER);
@@ -130,26 +130,13 @@ namespace StudentService.Gui
             //semester, je l treba?
             //professor, je l treba?
         }
-        /*da pratim sta ima
-         *   public int Id { get; set;}
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public Semester Semester { get; set; }
-        public int YearOfStudy { get; set; }
-        public Professor Professor { get; set; }
-        public int Espb { get; set; }
-
-        public List<Student> PassedStudents { get; set; }
-        public List<Student> AttendingStudents { get; set; }
-
-         */
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        //samo se ovo mijenja u view i update
         private void AddSubjectButton_Click(object sender, RoutedEventArgs e)
         {
             try
