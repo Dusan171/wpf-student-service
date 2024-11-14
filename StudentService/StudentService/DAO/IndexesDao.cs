@@ -1,4 +1,5 @@
 ﻿using StudentService.Model;
+using StudentService.Observer;
 using StudentService.Serialization;
 using System.Collections.Generic;
 
@@ -8,6 +9,8 @@ namespace StudentService.DAO
     {
         private readonly List<StudentIndex> _indexes;
         private readonly Storage<StudentIndex> _storage;
+
+        public DAOSubject Indexstudent;
 
         public IndexDao()
         {

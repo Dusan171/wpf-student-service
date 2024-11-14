@@ -22,19 +22,19 @@ namespace StudentService.Gui
     /// <summary>
     /// Interaction logic for ViewAdress.xaml
     /// </summary>
-    public partial class ViewAdress : Window, IObserver
+    public partial class ViewDAOAdress : Window, IObserver
     {
         public ObservableCollection<Adress> Adresses { get; set; }
         public Adress SelectedAdress { get; set; }
         private AddressDao adressDao;
-        public ViewAdress()
+        public ViewDAOAdress()
         {
-            InitializeComponent();
+            //InitializeComponent(); //CRVENO
             adressDao = new AddressDao();
             Adresses = new ObservableCollection<Adress>();
             Update();
             adressDao.AdressStudent.Subscribe(this);
-            //DataContext = this;//crveno
+            DataContext = this;
         }
         public void Update()
         {

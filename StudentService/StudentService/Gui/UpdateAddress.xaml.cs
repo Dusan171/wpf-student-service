@@ -72,18 +72,11 @@ namespace StudentService.Gui
         }
         public UpdateDAOAddress(Adress address,AddressDao adressDao)
         {
-            //InitializeComponent(); crveno nakon sto sam promijenio ime u UpdateDAOAddress
+            //InitializeComponent(); //crveno nakon sto sam promijenio ime u UpdateDAOAddress
             this.adressDao = adressDao;
             this.currentAddres = address;
-            //DataContext = this; //crveno
+            DataContext = this; 
         }
-        /*
-       *    public int Id { get; set; }
-      public string Street { get; set; }
-      public int Number { get; set; }
-      public string Town { get; set; }
-      public string Country { get; set; }
-       */
         private void ClearFields()
         {
             Id = 0;
@@ -99,26 +92,19 @@ namespace StudentService.Gui
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        //public CreateAdress()
-        // {
-        //   InitializeComponent();
-        // }
+
         private void UpdateAdressButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 adressDao.UpdateVehicle(currentAddres);
-                MessageBox.Show("Professor updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-               // Close(); //crveno
+                MessageBox.Show("Adress updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close(); 
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error adding adress: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        // public UpdateAddress()
-        // {
-        //    InitializeComponent();
-        //}
     }
 }

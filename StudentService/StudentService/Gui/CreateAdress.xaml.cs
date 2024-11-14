@@ -19,13 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
-using StudentService.Model.Enums;
-using StudentService.Model;
-using System.ComponentModel;
-using StudentService.DAO;
-using System.Collections.ObjectModel;
 using System.Net;
-
 
 namespace StudentService.Gui
 {
@@ -35,7 +29,6 @@ namespace StudentService.Gui
     public partial class CreateDAOAdress : Window, INotifyPropertyChanged
     {
         private AddressDao adressDao;
-
 
         private int id;
         public int Id
@@ -93,13 +86,6 @@ namespace StudentService.Gui
             this.adressDao = adressDao;
             DataContext = this;
         }
-        /*
-       *    public int Id { get; set; }
-      public string Street { get; set; }
-      public int Number { get; set; }
-      public string Town { get; set; }
-      public string Country { get; set; }
-       */
         private void ClearFields()
         {
             Id = 0;
@@ -115,15 +101,11 @@ namespace StudentService.Gui
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        //public CreateAdress()
-        // {
-        //   InitializeComponent();
-        // }
         private void AddAdressButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Create a new Student instance directly from properties
+                // Create a new Adres instance directly from properties
                 Adress newAdress = new Adress
                 {
                     Id = id,
