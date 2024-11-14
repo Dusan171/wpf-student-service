@@ -28,10 +28,6 @@ namespace StudentService.Gui
     /// </summary>
     public partial class UpdateGRADE : Window, INotifyPropertyChanged
     {
-        // public UpdateGrade()
-        // {
-        //     InitializeComponent();
-        //  }
         private readonly GradeDao gradeDao;
         private Grade currentGrade;
         public int Id
@@ -75,7 +71,7 @@ namespace StudentService.Gui
            // InitializeComponent(); //crveno
             this.gradeDao = gradeDao;
             this.currentGrade = grade;
-           // DataContext = this;// crveno u svakom
+            DataContext = this;
 
         }
         /*
@@ -99,7 +95,7 @@ public DateOnly Date { get; set; }
             {
                 gradeDao.UpdateGrade(currentGrade);
                 MessageBox.Show("Grade updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                //Close(); //crveno
+                Close(); 
             }
             catch (Exception ex)
             {

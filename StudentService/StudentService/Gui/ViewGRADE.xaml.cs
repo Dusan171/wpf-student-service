@@ -16,19 +16,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using StudentService.Observer;
+
 namespace StudentService.Gui
 {
     /// <summary>
     /// Interaction logic for ViewGRADE.xaml
     /// </summary>
-    public partial class ViewGRADE : Window, IObserver
+    public partial class ViewDAOGRADE : Window, IObserver
     {
         public ObservableCollection<Grade> Grades { get; set; }
         public Grade SelectedGrade { get; set; }
         private GradeDao gradeDao;
-        public ViewGRADE()
+        public ViewDAOGRADE()
         {
-            InitializeComponent();
+            //InitializeComponent();//crveno
             gradeDao = new GradeDao();
             Grades = new ObservableCollection<Grade>();
             Update();
@@ -58,7 +60,7 @@ namespace StudentService.Gui
             {
                 return;
             }
-            UpdateGrade updateGrade = new UpdateGrade(SelectedGrade, gradeDao);
+            UpdateGRADE updateGrade = new UpdateGRADE(SelectedGrade, gradeDao);
             updateGrade.Show();
 
         }

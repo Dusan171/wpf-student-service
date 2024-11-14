@@ -27,10 +27,7 @@ namespace StudentService.Gui
     /// </summary>
     public partial class CreateDAOGrade : Window, INotifyPropertyChanged
     {
-        // public CreateGrade()
-        //{
-        //     InitializeComponent();
-        // }
+   
         private GradeDao gradeDao;
 
         private int id;
@@ -77,7 +74,7 @@ namespace StudentService.Gui
         {
             //InitializeComponent(); //crveno
             this.gradeDao = gradeDao;
-            DataContext = this;// crveno u svakom
+            DataContext = this;
 
         }
         /*
@@ -120,7 +117,7 @@ public DateOnly Date { get; set; }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error adding grade: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
