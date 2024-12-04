@@ -16,6 +16,7 @@ namespace StudentService.DAO
         {
             _storage = new Storage<Grade>("grades.txt");
             _grades = _storage.Load();
+            StudentGrade = new DAOSubject();
         }
 
         private int GenerateId()
@@ -29,6 +30,7 @@ namespace StudentService.DAO
             grade.Id = GenerateId();
             _grades.Add(grade);
             _storage.Save(_grades);
+            StudentGrade.NotifyObservers();
             return grade;
         }
 
@@ -43,6 +45,7 @@ namespace StudentService.DAO
             oldGrade.Date = grade.Date;
 
             _storage.Save(_grades);
+            StudentGrade.NotifyObservers();
             return oldGrade;
         }
 
@@ -53,6 +56,7 @@ namespace StudentService.DAO
 
             _grades.Remove(grade);
             _storage.Save(_grades);
+            StudentGrade.NotifyObservers();
             return grade;
         }
 

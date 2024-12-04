@@ -1,23 +1,23 @@
 ﻿using StudentService.Model;
 using StudentService.Observer;
 using StudentService.Serialization;
-using System;
+//using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+//using System.DirectoryServices;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using System.Xml.Linq;
 
 namespace StudentService.DAO
 {
-    public class AddressDao
+    public class AdressDao
     {
         private readonly List<Adress> _adresses;
         private readonly Storage<Adress> _storage;
 
         public DAOSubject AdressStudent;
-        public AddressDao()
+        public AdressDao()
         {
             _storage = new Storage<Adress>("adresses.txt");
             _adresses = _storage.Load();
@@ -39,7 +39,7 @@ namespace StudentService.DAO
             return adress;
         }
 
-        public Adress? UpdateVehicle(Adress adress)
+        public Adress? UpdateAdress(Adress adress)
         {
             Adress? oldAdress = GetById(adress.Id);
             if (oldAdress is null) return null;
@@ -49,14 +49,12 @@ namespace StudentService.DAO
             oldAdress.Town = adress.Town;
             oldAdress.Country = adress.Country;
 
-
-
             _storage.Save(_adresses);
              AdressStudent.NotifyObservers();
             return oldAdress;
         }
 
-        public Adress? RemoveVehicle(int id)
+        public Adress? RemoveAdress(int id)
         {
             Adress? adress = GetById(id);
             if (adress == null) return null;
