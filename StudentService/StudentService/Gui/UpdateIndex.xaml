@@ -6,7 +6,20 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="UpdateIndex" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Label Content="Id:" VerticalAlignment="Top" Margin="0,90,0,0" />
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+
+        <Label Content="CourseCode:" VerticalAlignment="Top" Margin="0,120,0,0" />
+        <TextBox x:Name="CourseCodeTextBox" Text="{Binding CourseCode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,120,0,0" />
+
+        <Label Content="RegisterNumber:" VerticalAlignment="Top" Margin="0,150,0,0" />
+        <TextBox x:Name="RegisterNumberTextBox" Text="{Binding RegisterNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,150,0,0" />
+
+        <Label Content="RegisterYear:" VerticalAlignment="Top" Margin="0,180,0,0" />
+        <TextBox x:Name="RegisterYearTextBox" Text="{Binding RegisterYear, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,180,0,0" />
+
+        <Button Content="Update Index" VerticalAlignment="Top" Margin="10,280,0,0" Width="100" Click="UpdateIndexButton_Click" />
+
     </Grid>
 </Window>

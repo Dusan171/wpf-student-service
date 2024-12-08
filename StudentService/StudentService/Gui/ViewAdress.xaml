@@ -6,7 +6,26 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="ViewAdress" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+           <RowDefinition Height="Auto"  />
+           <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <Button Content="Create Adress" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Update Adress" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Delete Adress" Click="Button_ClickDelete" Width="100" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Adress}" SelectedItem="{Binding SelectedAdress}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Street" Binding="{Binding Street}" />
+                <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
+                <DataGridTextColumn Header="Town" Binding="{Binding Town}" />
+                <DataGridTextColumn Header="Country" Binding="{Binding Country}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

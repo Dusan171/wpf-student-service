@@ -27,13 +27,8 @@ namespace StudentService.Gui
     /// </summary>
     public partial class UpdateAdress : Window, INotifyPropertyChanged
     {
-        public UpdateAdress()
-        {
-            InitializeComponent();
-        }
         private readonly AdressDao adressDao;
         private Adress currentAdress;
-
 
         //  public int Id { get; set; }
         public int Id

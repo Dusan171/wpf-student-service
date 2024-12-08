@@ -1,12 +1,21 @@
 ﻿<Window x:Class="StudentService.Gui.CreateIndex"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StudentService.Gui"
-        mc:Ignorable="d"
         Title="CreateIndex" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Label Content="Id:" VerticalAlignment="Top" Margin="0,90,0,0" />
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+
+        <Label Content="CourseCode:" VerticalAlignment="Top" Margin="0,120,0,0" />
+        <TextBox x:Name="CourseCodeTextBox" Text="{Binding CourseCode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,120,0,0" />
+
+        <Label Content="RegisterNumber:" VerticalAlignment="Top" Margin="0,150,0,0" />
+        <TextBox x:Name="RegisterNumberTextBox" Text="{Binding RegisterNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,150,0,0" />
+
+        <Label Content="RegisterYear:" VerticalAlignment="Top" Margin="0,180,0,0" />
+        <TextBox x:Name="RegisterYearTextBox" Text="{Binding RegisterYear, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,180,0,0" />
+        <Button Content="Add Index" VerticalAlignment="Top" Margin="10,300,0,0" Width="100" Click="AddIndexButton_Click" />
+    
+
     </Grid>
 </Window>

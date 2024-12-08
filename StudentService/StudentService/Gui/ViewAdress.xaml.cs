@@ -17,7 +17,7 @@ using StudentService.Model;
 using StudentService.Observer;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
+
 
 namespace StudentService.Gui
 {
@@ -32,7 +32,7 @@ namespace StudentService.Gui
             adressDao = new AdressDao();
             Adresses = new ObservableCollection<Adress>();
             Update();
-            //ProfessorDao.ProfessorSubject.Subscribe(this);
+            adressDao.AdressStudent.Subscribe(this);
             DataContext = this;
         }
         public ObservableCollection<Adress> Adresses { get; set; }

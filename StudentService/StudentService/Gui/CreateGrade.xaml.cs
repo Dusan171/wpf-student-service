@@ -38,9 +38,27 @@ namespace StudentService.Gui
             }
         }
         //public Student PassedStudent { get; set; }
-
+        private Student passedStudent;
+        public Student PassedStudent
+        {
+            get => passedStudent;
+            set
+            {
+                passedStudent= value;
+                OnPropertyChanged(nameof(PassedStudent));
+            }
+        }
         //public Subject Subject { get; set; }
-
+        private Subject subject;
+        public Subject Subject
+        {
+            get => subject;
+            set
+            {
+                subject= value;
+                OnPropertyChanged(nameof(Subject));
+            }
+        }
         //public int Value { get; set; }
         private int VALUE;
         public int Value
@@ -81,6 +99,13 @@ namespace StudentService.Gui
                     Date = DateOnly.FromDateTime(Date.Value),
                     Id=Id,
                     Value=Value,
+                    /*
+                     *     
+        public Student PassedStudent { get; set; }
+        public Subject Subject { get; set; }
+                     */
+                    Subject = Subject,
+                    PassedStudent = PassedStudent
 
                 };
 
@@ -104,6 +129,11 @@ namespace StudentService.Gui
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

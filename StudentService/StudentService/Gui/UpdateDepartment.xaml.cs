@@ -26,10 +26,6 @@ namespace StudentService.Gui
     /// </summary>
     public partial class UpdateDepartment : Window, INotifyPropertyChanged
     {
-        public UpdateDepartment()
-        {
-            InitializeComponent();
-        }
         private readonly DepartmentDao departmentDao;
         private Department currentDepartment;
 
@@ -64,10 +60,25 @@ namespace StudentService.Gui
             }
         }
         //  public Professor HeadProfessor { get; set; }
+        public Professor HeadProfessor
+        {
+            get => currentDepartment.HeadProfessor;
+            set
+            {
+                currentDepartment.HeadProfessor = value;
+                OnPropertyChanged(nameof(HeadProfessor));
+            }
+        }
         // public List<Professor> Professors { get; set; }
-     
-     
-        
+        public List<Professor> Professors
+        {
+            get=>currentDepartment.Professors;
+            set
+            { 
+              currentDepartment.Professors = value;
+              OnPropertyChanged(nameof(Professors));
+            }
+        }
         public UpdateDepartment(Department department, DepartmentDao departmentDao)
         {
             InitializeComponent();

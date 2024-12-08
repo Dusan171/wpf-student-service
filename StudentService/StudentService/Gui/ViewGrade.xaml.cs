@@ -1,5 +1,5 @@
 ﻿//using System;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace StudentService.Gui
     /// <summary>
     /// Interaction logic for ViewGrade.xaml
     /// </summary>
-    public partial class ViewGrade : Window
+    public partial class ViewGrade : Window, IObserver
     {
         //public int Id { get; set; }
         // public Student PassedStudent { get; set; }
@@ -42,7 +42,7 @@ namespace StudentService.Gui
             gradeDao = new GradeDao();
             Grades = new ObservableCollection<Grade>();
             Update();
-            //gradeDao.ProfessorSubject.Subscribe(this);
+            gradeDao.StudentGrade.Subscribe(this);
             DataContext = this;
         }
 

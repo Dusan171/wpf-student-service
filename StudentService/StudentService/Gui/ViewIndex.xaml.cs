@@ -36,7 +36,7 @@ namespace StudentService.Gui
             indexDao = new IndexDao();
             Indexes = new ObservableCollection<StudentIndex>();
             Update();
-            //professorDao.ProfessorSubject.Subscribe(this);
+            indexDao.IndexStudent.Subscribe(this);
             DataContext = this;
         }
 

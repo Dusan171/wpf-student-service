@@ -6,7 +6,23 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="UpdateAdress" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Label Content="Id:" VerticalAlignment="Top" />
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" />
+
+        <Label Content="Street:" VerticalAlignment="Top" Margin="0,30,0,0" />
+        <TextBox x:Name="StreetTextBox" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" />
+
+        <Label Content="Number:" VerticalAlignment="Top" Margin="0,60,0,0" />
+        <TextBox x:Name="NumberTextBox" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,60,0,0" />
+
+        <Label Content="Town:" VerticalAlignment="Top" Margin="0,90,0,0" />
+        <TextBox x:Name="TownTextBox" Text="{Binding Town, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+
+        <Label Content="Country:" VerticalAlignment="Top" Margin="0,120,0,0" />
+        <TextBox x:Name="CountryTextBox" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,120,0,0" />
+
+        <Button Content="Update Adress" VerticalAlignment="Top" Margin="10,280,0,0" Width="100" Click="UpdateAdressButton_Click" />
+
     </Grid>
 </Window>

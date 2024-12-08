@@ -6,7 +6,17 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="UpdateDepartment" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Label Content="Id:" VerticalAlignment="Top" />
+        <TextBox x:Name="IdTextBox" Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0"/>
+
+        <Label Content="Code:" VerticalAlignment="Top" Margin="0,30,0,0"/>
+        <TextBox x:Name="CodeTextBox" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0"/>
+
+        <Label Content="HeadProfessor:" VerticalAlignment="Top" Margin="0,60,0,0"/>
+        <TextBox x:Name="HeadProfessorTextBox" Text="{Binding HeadProfessor, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,60,0,0"/>
+
+        <Button Content="Update Department" VerticalAlignment="Top" Margin="10,200,0,0" Width="100" Click="UpdateDepartmentButton_Click"/>
+
     </Grid>
 </Window>

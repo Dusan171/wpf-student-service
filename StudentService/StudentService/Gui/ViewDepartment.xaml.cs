@@ -33,7 +33,7 @@ namespace StudentService.Gui
             departmentDao = new DepartmentDao();
             Departments = new ObservableCollection<Department>();
             Update();
-            //departmentDao.ProfessorSubject.Subscribe(this);
+            departmentDao.DepartmentSubject.Subscribe(this);
             DataContext = this;
         }
 

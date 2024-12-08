@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
-        Title="UpdateGrade" Height="450" Width="800">
-    <Grid>
-        
+        Title="UpdateGrade" Height="400" Width="300">
+    <Grid Margin="10">
+        <Label Content="Id:" VerticalAlignment="Top" />
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" />
+
+        <Label Content="PassedStudent:" VerticalAlignment="Top" Margin="0,30,0,0" />
+        <TextBox x:Name="PassedStudentTextBox" Text="{Binding PassedStudent, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" />
+
+        <Label Content="Date:" VerticalAlignment="Top" Margin="0,60,0,0" />
+        <DatePicker x:Name="DatePicker" SelectedDate="{Binding Date, Mode=TwoWay}" VerticalAlignment="Top" Margin="100,60,0,0" />
+
+        <Label Content="Value:" VerticalAlignment="Top" Margin="0,90,0,0" />
+        <TextBox x:Name="ValueTextBox" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+
+        <Label Content="Subject:" VerticalAlignment="Top" Margin="0,120,0,0" />
+        <TextBox x:Name="SubjectTextBox" Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,120,0,0" />
+
+        <Button Content="Update Grade" VerticalAlignment="Top" Margin="10,300,0,0" Width="100" Click="UpdateGradeButton_Click" />
     </Grid>
 </Window>

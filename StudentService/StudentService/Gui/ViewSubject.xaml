@@ -6,7 +6,31 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="ViewSubject" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Button panel -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <Button Content="Create Subject" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Update Subject" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Delete Subject" Click="Button_ClickDelete" Width="100" />
+        </StackPanel>
+
+        <!-- DataGrid to display the list of professors -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Subject}" SelectedItem="{Binding SelectedSubject}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}" />
+               
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Semester" Binding="{Binding Semester}" />
+                <DataGridTextColumn Header="YearofStudy" Binding="{Binding YearofStudy}" />
+                <DataGridTextColumn Header="Professor" Binding="{Binding Professor}" />
+                <DataGridTextColumn Header="Espb" Binding="{Binding Espb}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

@@ -71,27 +71,27 @@ namespace StudentService.Gui
         }
 
         // public Professor HeadProfessor { get; set; }
-        //private Professor headProfessor;
-       // public Professor HeadProfessor
-       // {
-        //    get => headProfessor;
-        //    set
-        //    {
-        //        headProfessor = value;
-        //        OnPropertyChanged(nameof(HeadProfessor));
-         //   }
-       // }
+        private Professor headProfessor;
+        public Professor HeadProfessor
+        {
+           get => headProfessor;
+            set
+            {
+               headProfessor = value;
+               OnPropertyChanged(nameof(HeadProfessor));
+            }
+        }
         // public List<Professor> Professors { get; set; }
-       // private List<Professor> professors;
-      //  public List<Professor> Professors
-       // {
-        //    get => professors;
-        //    set
-        //    {
-         //       professors = value;
-        //        OnPropertyChanged(nameof(Professors));
-        //    }
-       // }
+        private List<Professor> professors;
+        public List<Professor> Professors
+        {
+            get => professors;
+           set
+           {
+               professors = value;
+               OnPropertyChanged(nameof(Professors));
+           }
+        }
 
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -99,11 +99,11 @@ namespace StudentService.Gui
             {
                 Department newDepartment = new Department
                 {
-                  Id=Id, 
-                  Code=Code,
-                  Name=Name,
-                 // HeadProfessor= HeadProfessor,
-                 // Professors= Professors
+                  Id = Id, 
+                  Code = Code,
+                  Name = Name,
+                  HeadProfessor = HeadProfessor,
+                  Professors = Professors
                 };
 
                 departmentDao.Create(newDepartment);
@@ -123,8 +123,8 @@ namespace StudentService.Gui
             // public List<Professor> Professors { get; set; }
 
             // public Professor HeadProfessor { get; set; }
-           // HeadProfessor = 
-            //Professors = 
+           // HeadProfessor = null; 
+            //Professors = empty;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

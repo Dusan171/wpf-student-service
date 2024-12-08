@@ -6,7 +6,27 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="ViewIndex" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Button panel -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <Button Content="Create Index" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Update Index" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Delete Index" Click="Button_ClickDelete" Width="100" />
+        </StackPanel>
+
+        <!-- DataGrid to display the list of professors -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Index}" SelectedItem="{Binding SelectedIndex}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="CourseCode" Binding="{Binding CourseCode}" />
+                <DataGridTextColumn Header="RegisterNumber" Binding="{Binding RegisterNumber}" />
+                <DataGridTextColumn Header="RegisterYear" Binding="{Binding RegisterYear}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

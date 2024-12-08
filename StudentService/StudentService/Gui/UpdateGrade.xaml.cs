@@ -29,8 +29,26 @@ namespace StudentService.Gui
         }
 
         // public Student PassedStudent { get; set; }
+        public Student PassedStudent
+        {
+            get => currentGrade.PassedStudent;
+            set
+            {
+                currentGrade.PassedStudent = value;
+                OnPropertyChanged(nameof(PassedStudent));
+            }
+        }
 
         // public Subject Subject { get; set; }
+        public Subject Subject
+        {
+            get => currentGrade.Subject;
+            set
+            { 
+                currentGrade.Subject = value;
+                OnPropertyChanged(nameof(Subject));
+            }
+        }
 
         // public int Value { get; set; }
         public int Value
