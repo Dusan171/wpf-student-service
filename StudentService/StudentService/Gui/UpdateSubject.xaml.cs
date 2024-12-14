@@ -1,23 +1,11 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
+﻿
 using StudentService.Model;
 using StudentService.DAO;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using StudentService.Model.Enums;
+using System.Linq;
 
 namespace StudentService.Gui
 {
@@ -132,8 +120,19 @@ namespace StudentService.Gui
         {
             try
             {
+                // Validate fields before update
+                if (string.IsNullOrEmpty(Code) || string.IsNullOrEmpty(Name))
+                {
+                    MessageBox.Show("Code and Name cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 subjectDao.UpdateSubject(currentSubject);
+
+                // Feedback on success
                 MessageBox.Show("Subject updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Optional: Refresh the UI or close the window
                 Close();
             }
             catch (Exception ex)

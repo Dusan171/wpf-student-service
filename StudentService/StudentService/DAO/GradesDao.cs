@@ -15,14 +15,13 @@ namespace StudentService.DAO
         public GradeDao()
         {
             _storage = new Storage<Grade>("grades.txt");
-            _grades = _storage.Load();
+            _grades = _storage.Load() ?? new List<Grade>();  // Safe guard in case Load() returns null
             StudentGrade = new DAOSubject();
         }
 
         private int GenerateId()
         {
-            if (_grades.Count == 0) return 1;
-            return _grades[^1].Id + 1;
+            return _grades.Count == 0 ? 1 : _grades[^1].Id + 1;
         }
 
         public Grade Create(Grade grade)
@@ -36,7 +35,7 @@ namespace StudentService.DAO
 
         public Grade? UpdateGrade(Grade grade)
         {
-            Grade? oldGrade = GetById(grade.Id);
+            var oldGrade = GetById(grade.Id);
             if (oldGrade == null) return null;
 
             oldGrade.PassedStudent = grade.PassedStudent;
@@ -51,7 +50,7 @@ namespace StudentService.DAO
 
         public Grade? RemoveGrade(int id)
         {
-            Grade? grade = GetById(id);
+            var grade = GetById(id);
             if (grade == null) return null;
 
             _grades.Remove(grade);
@@ -65,7 +64,7 @@ namespace StudentService.DAO
             return _grades.Find(g => g.Id == id);
         }
 
-        public List<Grade> GetAll()
+        public IEnumerable<Grade> GetAll() // Use IEnumerable for more flexibility
         {
             return _grades;
         }

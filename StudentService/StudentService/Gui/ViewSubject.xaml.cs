@@ -1,17 +1,4 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
+﻿
 using StudentService.DAO;
 using StudentService.Model;
 using StudentService.Observer;
@@ -63,8 +50,16 @@ namespace StudentService.Gui
                 MessageBox.Show("Please select a subject to update.");
                 return;
             }
-            UpdateSubject updateSubject = new UpdateSubject(SelectedSubject, subjectDao);
-            updateSubject.Show();
+            // Make sure to handle errors gracefully in the update process
+            try
+            {
+                UpdateSubject updateSubject = new UpdateSubject(SelectedSubject, subjectDao);
+                updateSubject.ShowDialog(); // Changed to ShowDialog
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening update form: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 
@@ -76,8 +71,20 @@ namespace StudentService.Gui
                 return;
             }
 
-            subjectDao.RemoveSubject(SelectedSubject.Id);
-            Update();
+            // Confirm deletion with the user
+            var result = MessageBox.Show("Are you sure you want to delete this subject?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    subjectDao.RemoveSubject(SelectedSubject.Id);
+                    Update(); // Refresh the list after deletion
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting subject: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

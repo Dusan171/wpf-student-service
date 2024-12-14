@@ -1,17 +1,4 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
+﻿
 using StudentService.Model;
 using System;
 using System.ComponentModel;
@@ -60,20 +47,20 @@ namespace StudentService.Gui
             }
         }
         //public int Value { get; set; }
-        private int VALUE;
+        private int value;
         public int Value
         {
-            get => VALUE;
+            get => value;
             set
             {
-                VALUE = value;
+                this.value = value;
                 OnPropertyChanged(nameof(Value));
             }
         }
         // public DateOnly Date { get; set; }
         
-        private DateTime? date;
-        public DateTime? Date
+        private DateOnly? date;
+        public DateOnly? Date
         {
             get => date;
             set
@@ -94,23 +81,24 @@ namespace StudentService.Gui
         {
             try
             {
+                if ( PassedStudent == null || Subject == null)
+                {
+                    MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (!Date.HasValue)
+                {
+                    MessageBox.Show("Please select a date.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 Grade newGrade = new Grade
                 {
-                    Date = DateOnly.FromDateTime(Date.Value),
-                    Id=Id,
-                    Value=Value,
-                    /*
-                     *     
-        public Student PassedStudent { get; set; }
-        public Subject Subject { get; set; }
-                     */
+                    Id = Id,
+                    Value = Value,
+                    Date = Date.Value, // Using DateOnly directly
                     Subject = Subject,
                     PassedStudent = PassedStudent
-
                 };
-
-                gradeDao.Create(newGrade);
-                ClearFields();
             }
             catch (Exception ex)
             {
@@ -122,6 +110,9 @@ namespace StudentService.Gui
         { 
             Id = 0;
             Value = 0;
+            PassedStudent = null;
+            Subject = null;
+            Date = null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -129,11 +120,6 @@ namespace StudentService.Gui
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

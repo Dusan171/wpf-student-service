@@ -1,22 +1,9 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
-using StudentService.Model;
+﻿using StudentService.Model;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using StudentService.DAO;
+using System.Collections.Generic;
 
 namespace StudentService.Gui
 {
@@ -25,9 +12,7 @@ namespace StudentService.Gui
     /// </summary>
     public partial class CreateDepartment : Window, INotifyPropertyChanged
     {
-
-        private DepartmentDao departmentDao;
-
+        private readonly DepartmentDao departmentDao;
       
         public CreateDepartment(DepartmentDao departmentDao)
         {
@@ -82,51 +67,62 @@ namespace StudentService.Gui
             }
         }
         // public List<Professor> Professors { get; set; }
-        private List<Professor> professors;
+        private List<Professor> professors=new List<Professor>();
         public List<Professor> Professors
         {
-            get => professors;
+           get => professors;
            set
            {
                professors = value;
                OnPropertyChanged(nameof(Professors));
            }
         }
-
+        // Metod za dodavanje departmana sa unapređenom obradom grešaka
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Validacija unosa
+                if (string.IsNullOrEmpty(Code) || string.IsNullOrEmpty(Name) || HeadProfessor == null)
+                {
+                    MessageBox.Show("Please provide all the required fields: Code, Name, and Head Professor.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 Department newDepartment = new Department
                 {
-                  Id = Id, 
-                  Code = Code,
-                  Name = Name,
-                  HeadProfessor = HeadProfessor,
-                  Professors = Professors
+                    Id = Id, // Generisanje ID-a u DAO klasi je bolje, ali ako želite da ga korisnik unosi, ostavite ovako
+                    Code = Code,
+                    Name = Name,
+                    HeadProfessor = HeadProfessor,
+                    Professors = Professors
                 };
 
-                departmentDao.Create(newDepartment);
+                var createdDepartment = departmentDao.Create(newDepartment);
+
+                // Obaveštavanje korisnika o uspešnom kreiranju
+                MessageBox.Show($"Department {createdDepartment.Name} created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Čišćenje polja
                 ClearFields();
             }
             catch (Exception ex)
             {
+                // Obrada greške sa detaljima
                 MessageBox.Show($"Error adding department: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        // Čišćenje svih polja u formi
         private void ClearFields()
         {
             Id = 0;
             Code = string.Empty;
             Name = string.Empty;
-            // public List<Professor> Professors { get; set; }
-
-            // public Professor HeadProfessor { get; set; }
-           // HeadProfessor = null; 
-            //Professors = empty;
+            HeadProfessor = null; 
+            Professors = new List<Professor>();
         }
-
+        // Event za obaveštavanje o promenama na property-jima
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

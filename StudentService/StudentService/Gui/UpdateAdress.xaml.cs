@@ -1,20 +1,4 @@
-﻿//using StudentService.DAO;
-//using StudentService.Model;
-//using System;
-//using System.Collections.Generic;
-//using System.ComponentModel;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-using StudentService.Model;
+﻿using StudentService.Model;
 using StudentService.DAO;
 using System;
 using System.ComponentModel;
@@ -91,9 +75,19 @@ namespace StudentService.Gui
             this.currentAdress = adress;
             DataContext = this;
         }
-
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(Town) || string.IsNullOrWhiteSpace(Country) || Number <= 0)
+            {
+                MessageBox.Show("All fields must be filled correctly.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return true;
+        }
         private void UpdateAdressButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidateInput())
+                return;
             try
             {
                 adressDao.UpdateAdress(currentAdress);

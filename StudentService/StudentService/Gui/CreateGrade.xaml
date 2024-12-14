@@ -7,22 +7,31 @@
         mc:Ignorable="d"
         Title="CreateGrade" Height="450" Width="800">
     <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <Label Content="Id:" VerticalAlignment="Top" />
-        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" />
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" Grid.Row="0" />
 
-        <Label Content="PassedStudent:" VerticalAlignment="Top" Margin="0,30,0,0" />
-        <TextBox x:Name="PassedStudentTextBox" Text="{Binding PassedStudent, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" />
+        <Label Content="Passed Student:" VerticalAlignment="Top" Margin="0,30,0,0" Grid.Row="1" />
+        <ComboBox x:Name="PassedStudentComboBox" DisplayMemberPath="FullName" SelectedItem="{Binding PassedStudent, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" Grid.Row="1" />
 
-        <Label Content="Date:" VerticalAlignment="Top" Margin="0,60,0,0" />
-        <DatePicker x:Name="DatePicker" SelectedDate="{Binding Date, Mode=TwoWay}" VerticalAlignment="Top" Margin="100,60,0,0" />
+        <Label Content="Date:" VerticalAlignment="Top" Margin="0,30,0,0" Grid.Row="2" />
+        <DatePicker x:Name="DatePicker" SelectedDate="{Binding Date, Mode=TwoWay}" VerticalAlignment="Top" Margin="100,0,0,0" Grid.Row="2" />
 
-        <Label Content="Value:" VerticalAlignment="Top" Margin="0,90,0,0" />
-        <TextBox x:Name="ValueTextBox" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+        <Label Content="Value:" VerticalAlignment="Top" Margin="0,30,0,0" Grid.Row="3" />
+        <TextBox x:Name="ValueTextBox" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" Grid.Row="3" />
 
-        <Label Content="Subject:" VerticalAlignment="Top" Margin="0,120,0,0" />
-        <TextBox x:Name="SubjectTextBox" Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,120,0,0" />
+        <Label Content="Subject:" VerticalAlignment="Top" Margin="0,30,0,0" Grid.Row="4" />
+        <ComboBox x:Name="SubjectComboBox" DisplayMemberPath="Name" SelectedItem="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" Grid.Row="4" />
 
-        <Button Content="Add Grade" VerticalAlignment="Top" Margin="10,200,0,0" Width="100" Click="AddGradeButton_Click"/>
-        
+        <Button Content="Add Grade" VerticalAlignment="Top" Margin="10,30,0,0" Width="100" Click="AddGradeButton_Click" Grid.Row="5" />
+
     </Grid>
 </Window>

@@ -1,13 +1,7 @@
 ﻿using StudentService.Model;
 using StudentService.Observer;
 using StudentService.Serialization;
-//using System;
 using System.Collections.Generic;
-//using System.DirectoryServices;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Xml.Linq;
 
 namespace StudentService.DAO
 {
@@ -73,11 +67,6 @@ namespace StudentService.DAO
         public List<Adress> GetAll()
         {
             return _adresses;
-        }
-
-        
+        } 
     }
-
-
-
 }

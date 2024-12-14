@@ -20,7 +20,7 @@
         </StackPanel>
 
         <!-- DataGrid to display the list of professors -->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Index}" SelectedItem="{Binding SelectedIndex}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Indexes}" SelectedItem="{Binding SelectedIndex}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="CourseCode" Binding="{Binding CourseCode}" />

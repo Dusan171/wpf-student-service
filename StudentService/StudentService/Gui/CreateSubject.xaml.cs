@@ -1,18 +1,4 @@
-﻿///using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
-using StudentService.Model;
+﻿using StudentService.Model;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -109,44 +95,53 @@ namespace StudentService.Gui
             }
         }
         //public List<Student> PassedStudents { get; set; }
-        private List<Student> passedStudents;
+        private List<Student> passedStudents= new List<Student>();
         public List<Student> PassedStudents
         {
             get => passedStudents;
             set
             {
-                passedStudents = value;
+                passedStudents = value ?? new List<Student>();
                 OnPropertyChanged(nameof(PassedStudents));
             }
         }
 
         // public List<Student> AttendingStudents { get; set; }
-        private List<Student> attendingStudents;
+        private List<Student> attendingStudents= new List<Student>();
         public List<Student> AttendingStudents
         { 
              get=> attendingStudents;
             set
             {
-                attendingStudents = value;
+                attendingStudents = value ?? new List<Student>();
                 OnPropertyChanged(nameof(AttendingStudents));
             }
         }
-        public ObservableCollection<Semester> StudentSemester { get; set; }
+        public ObservableCollection<Semester> AvailableSemesters { get; set; }
         public CreateSubject(SubjectDao subjectDao)
         {
             InitializeComponent();
             this.subjectDao = subjectDao;
             DataContext = this;
 
-            StudentSemester = new ObservableCollection<Semester>();
-            StudentSemester.Add(Semester.SUMMER);
-            StudentSemester.Add(Semester.WINTER);
+            AvailableSemesters = new ObservableCollection<Semester>
+            {
+                Semester.SUMMER,
+                Semester.WINTER
+            };
         }
 
         private void AddSubjectButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Ensure required fields are filled
+                if (string.IsNullOrEmpty(Code) || string.IsNullOrEmpty(Name) || Professor == null || YearOfStudy == 0)
+                {
+                    MessageBox.Show("Please fill all required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 Subject newSubject = new Subject
                 {
                      Id = Id,
@@ -154,12 +149,9 @@ namespace StudentService.Gui
                      Name = Name,
                      Semester = SemesterStud,
                      YearOfStudy = YearOfStudy,
-       // public Professor Professor { get; set; }
                      Professor = Professor,
                      Espb = Espb,
-        //public List<Student> PassedStudents { get; set; }
                      PassedStudents = PassedStudents,
-        //public List<Student> AttendingStudents { get; set; }
                      AttendingStudents = AttendingStudents
                 };
 
@@ -179,8 +171,9 @@ namespace StudentService.Gui
             Name = string.Empty;
             Espb = 0;
             YearOfStudy = 0;
-            SemesterStud = default;
-          
+            SemesterStud = default(Semester);
+            PassedStudents.Clear();
+            AttendingStudents.Clear();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

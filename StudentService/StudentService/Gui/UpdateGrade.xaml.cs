@@ -4,9 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 
-
-
-
 namespace StudentService.Gui
 {
     /// <summary>
@@ -62,12 +59,12 @@ namespace StudentService.Gui
         }
 
         // public DateOnly Date { get; set; }
-        public DateTime? Date
+        public DateOnly Date
         {
-            get => currentGrade.Date.ToDateTime(new TimeOnly());
+            get => currentGrade.Date;
             set
             {
-                currentGrade.Date = DateOnly.FromDateTime(value ?? DateTime.Now);
+                currentGrade.Date = value;
                 OnPropertyChanged(nameof(Date));
             }
         }

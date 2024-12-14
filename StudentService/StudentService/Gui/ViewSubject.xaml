@@ -13,23 +13,24 @@
         </Grid.RowDefinitions>
 
         <!-- Button panel -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
-            <Button Content="Create Subject" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
-            <Button Content="Update Subject" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
-            <Button Content="Delete Subject" Click="Button_ClickDelete" Width="100" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <Button Content="Create Subject" Click="Button_ClickCreate" Width="120" Margin="0,0,10,0" />
+            <Button Content="Update Subject" Click="Button_ClickUpdate" Width="120" Margin="0,0,10,0" IsEnabled="{Binding SelectedSubject, Converter={StaticResource NullToBoolConverter}}" />
+            <Button Content="Delete Subject" Click="Button_ClickDelete" Width="120" IsEnabled="{Binding SelectedSubject, Converter={StaticResource NullToBoolConverter}}" />
         </StackPanel>
 
         <!-- DataGrid to display the list of professors -->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Subject}" SelectedItem="{Binding SelectedSubject}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,10,0,0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Code" Binding="{Binding Code}" />
-               
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Semester" Binding="{Binding Semester}" />
-                <DataGridTextColumn Header="YearofStudy" Binding="{Binding YearofStudy}" />
-                <DataGridTextColumn Header="Professor" Binding="{Binding Professor}" />
-                <DataGridTextColumn Header="Espb" Binding="{Binding Espb}" />
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80" />
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="120" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200" />
+                <DataGridTextColumn Header="Semester" Binding="{Binding Semester}" Width="100" />
+                <DataGridTextColumn Header="YearofStudy" Binding="{Binding YearofStudy}" Width="100" />
+                <DataGridTextColumn Header="Professor" Binding="{Binding Professor.Name}" Width="150" />
+                <DataGridTextColumn Header="Espb" Binding="{Binding Espb}" Width="80" />
+                <DataGridTextColumn Header="Espb" Binding="{Binding Espb}" Width="80" />
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

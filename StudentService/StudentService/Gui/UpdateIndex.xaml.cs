@@ -1,17 +1,4 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-using StudentService.Model;
+﻿using StudentService.Model;
 using StudentService.DAO;
 using System;
 using System.ComponentModel;
@@ -81,6 +68,11 @@ namespace StudentService.Gui
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(CourseCode) || RegisterNumber <= 0 || RegisterYear <= 0)
+                {
+                    MessageBox.Show("Please fill in all fields with valid data.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 indexDao.UpdateIndex(currentIndex);
                 MessageBox.Show("Index updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();

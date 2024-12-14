@@ -2,6 +2,7 @@
 using StudentService.Observer;
 using StudentService.Serialization;
 using System.Collections.Generic;
+using System;
 
 namespace StudentService.DAO
 {
@@ -15,7 +16,17 @@ namespace StudentService.DAO
         public SubjectDao()
         {
             _storage = new Storage<Subject>("subjects.txt");
-            _subjects = _storage.Load();
+            try
+            {
+                _subjects = _storage.Load();
+            }
+            catch (Exception ex)
+            {
+                // Handle loading failure (file missing, invalid format, etc.)
+                Console.WriteLine($"Error loading subjects: {ex.Message}");
+                _subjects = new List<Subject>(); // Initialize empty list in case of failure
+            }
+
             SubjectSubject = new DAOSubject();
         }
 
@@ -29,7 +40,16 @@ namespace StudentService.DAO
         {
             subject.Id = GenerateId();
             _subjects.Add(subject);
-            _storage.Save(_subjects);
+            try
+            {
+                _storage.Save(_subjects);
+            }
+            catch (Exception ex)
+            {
+                // Handle saving failure
+                Console.WriteLine($"Error saving subject: {ex.Message}");
+                return null; // Return null to indicate failure
+            }
             SubjectSubject.NotifyObservers();
             return subject;
         }
@@ -46,7 +66,17 @@ namespace StudentService.DAO
             oldSubject.Professor = subject.Professor;
             oldSubject.Espb = subject.Espb;
 
-            _storage.Save(_subjects);
+            try
+            {
+                _storage.Save(_subjects);
+            }
+            catch (Exception ex)
+            {
+                // Handle saving failure
+                Console.WriteLine($"Error updating subject: {ex.Message}");
+                return null;
+            }
+
             SubjectSubject.NotifyObservers();
             return oldSubject;
         }
@@ -57,7 +87,18 @@ namespace StudentService.DAO
             if (subject == null) return null;
 
             _subjects.Remove(subject);
-            _storage.Save(_subjects);
+
+            try
+            {
+                _storage.Save(_subjects);
+            }
+            catch (Exception ex)
+            {
+                // Handle saving failure
+                Console.WriteLine($"Error removing subject: {ex.Message}");
+                return null;
+            }
+
             SubjectSubject.NotifyObservers();
             return subject;
         }

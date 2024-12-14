@@ -1,18 +1,4 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
-using StudentService.DAO;
+﻿using StudentService.DAO;
 using StudentService.Model;
 using StudentService.Observer;
 using System;
@@ -32,8 +18,8 @@ namespace StudentService.Gui
             InitializeComponent();
             departmentDao = new DepartmentDao();
             Departments = new ObservableCollection<Department>();
-            Update();
             departmentDao.DepartmentSubject.Subscribe(this);
+            Update();
             DataContext = this;
         }
 
@@ -53,7 +39,7 @@ namespace StudentService.Gui
 
         private void Button_ClickCreate(object sender, RoutedEventArgs e)
         {
-            CreateDepartment createDepartment = new CreateDepartment(departmentDao);
+            var createDepartment = new CreateDepartment(departmentDao);
             createDepartment.Show();
         }
 
@@ -64,7 +50,7 @@ namespace StudentService.Gui
                 MessageBox.Show("Please select a department to update.");
                 return;
             }
-            UpdateDepartment updateDepartment = new UpdateDepartment(SelectedDepartment, departmentDao);
+            var updateDepartment = new UpdateDepartment(SelectedDepartment, departmentDao);
             updateDepartment.Show();
 
         }
@@ -77,10 +63,17 @@ namespace StudentService.Gui
                 return;
             }
 
-            departmentDao.RemoveDepartment(SelectedDepartment.Id);
-            Update();
+            var confirmationResult = MessageBox.Show("Are you sure you want to delete this department?",
+                                                       "Delete Confirmation",
+                                                       MessageBoxButton.YesNo,
+                                                       MessageBoxImage.Question);
+
+            if (confirmationResult == MessageBoxResult.Yes)
+            {
+                departmentDao.RemoveDepartment(SelectedDepartment.Id);
+                Update();  // Refresh department list
+            }
+            
         }
-
-
     }
 }

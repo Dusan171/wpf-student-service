@@ -6,25 +6,40 @@
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
         Title="ViewAdress" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF4CAF50" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="BorderBrush" Value="#388E3C" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
            <RowDefinition Height="Auto"  />
            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
-            <Button Content="Create Adress" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
-            <Button Content="Update Adress" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
-            <Button Content="Delete Adress" Click="Button_ClickDelete" Width="100" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <Button Content="Create Address" Click="Button_ClickCreate" Style="{StaticResource ButtonStyle}" />
+            <Button Content="Update Address" Click="Button_ClickUpdate" Style="{StaticResource ButtonStyle}" />
+            <Button Content="Delete Address" Click="Button_ClickDelete" Style="{StaticResource ButtonStyle}" />
         </StackPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Adress}" SelectedItem="{Binding SelectedAdress}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Adresses}" SelectedItem="{Binding SelectedAdress}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0" HorizontalAlignment="Stretch">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" SortDirection="Ascending" />
                 <DataGridTextColumn Header="Street" Binding="{Binding Street}" />
                 <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
                 <DataGridTextColumn Header="Town" Binding="{Binding Town}" />
                 <DataGridTextColumn Header="Country" Binding="{Binding Country}" />
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -20,12 +20,12 @@
         </StackPanel>
 
         <!-- DataGrid to display the list of students -->
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Grade}" SelectedItem="{Binding SelectedGrade}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Grades}" SelectedItem="{Binding SelectedGrade}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="PassedStudent" Binding="{Binding PassedStudent}" />
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" />
+                <DataGridTextColumn Header="PassedStudent" Binding="{Binding PassedStudent.FullName}" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='MM/dd/yyyy'}" />
+                <DataGridTextColumn Header="Subject" Binding="{Binding Subject.Name}" />
                 <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
             </DataGrid.Columns>
         </DataGrid>

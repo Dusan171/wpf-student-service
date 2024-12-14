@@ -3,17 +3,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="CreateDepartment" Height="450" Width="800">
     <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
         <Label Content="Id:" VerticalAlignment="Top" />
-        <TextBox x:Name="NameTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0"/>
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" Grid.Row="0"/>
 
         <Label Content="Code:" VerticalAlignment="Top" Margin="0,30,0,0"/>
-        <TextBox x:Name="CodeTextBox" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" />
+        <TextBox x:Name="CodeTextBox" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" Grid.Row="1"/>
 
-        <Label Content="HeadProfessor:" VerticalAlignment="Top" Margin="0,60,0,0" />
-        <TextBox x:Name="HeadProfessorTextBox" Text="{Binding HeadProfessor, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,60,0,0"/>
+        <Label Content="HeadProfessor:" VerticalAlignment="Top" Margin="0,60,0,0"/>
+        <ComboBox x:Name="HeadProfessorComboBox" 
+                  DisplayMemberPath="Name" 
+                  SelectedItem="{Binding HeadProfessor, UpdateSourceTrigger=PropertyChanged}" 
+                  VerticalAlignment="Top" 
+                  Margin="100,60,0,0" 
+                  Grid.Row="2"/>
 
-        <Button Content="Add Department" VerticalAlignment="Top" Margin="10,180,0,0" Width="100" Click="AddDepartmentButton_Click" />
+        <Label Content="Professors:" VerticalAlignment="Top" Margin="0,90,0,0"/>
+        <ListBox x:Name="ProfessorsListBox"
+                 ItemsSource="{Binding Professors}" 
+                 DisplayMemberPath="Name"
+                 SelectionMode="Multiple"
+                 VerticalAlignment="Top"
+                 Margin="100,90,0,0"
+                 Grid.Row="3"/>
 
+        <Button Content="Add Department" VerticalAlignment="Top" Margin="10,180,0,0" Width="100" Click="AddDepartmentButton_Click" Grid.Row="4"/>
 
     </Grid>
 </Window>

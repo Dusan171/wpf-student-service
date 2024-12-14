@@ -3,19 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="CreateIndex" Height="450" Width="800">
     <Grid Margin="10">
-        <Label Content="Id:" VerticalAlignment="Top" Margin="0,90,0,0" />
-        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <Label Content="CourseCode:" VerticalAlignment="Top" Margin="0,120,0,0" />
-        <TextBox x:Name="CourseCodeTextBox" Text="{Binding CourseCode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,120,0,0" />
+        <!-- Id Field -->
+        <Label Content="Id:" VerticalAlignment="Center" Grid.Row="0"/>
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="0" Margin="100,0" />
 
-        <Label Content="RegisterNumber:" VerticalAlignment="Top" Margin="0,150,0,0" />
-        <TextBox x:Name="RegisterNumberTextBox" Text="{Binding RegisterNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,150,0,0" />
+        <!-- Course Code Field -->
+        <Label Content="Course Code:" VerticalAlignment="Center" Grid.Row="1"/>
+        <TextBox x:Name="CourseCodeTextBox" Text="{Binding CourseCode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="1" Margin="100,0" />
 
-        <Label Content="RegisterYear:" VerticalAlignment="Top" Margin="0,180,0,0" />
-        <TextBox x:Name="RegisterYearTextBox" Text="{Binding RegisterYear, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,180,0,0" />
-        <Button Content="Add Index" VerticalAlignment="Top" Margin="10,300,0,0" Width="100" Click="AddIndexButton_Click" />
-    
+        <!-- Register Number Field -->
+        <Label Content="Register Number:" VerticalAlignment="Center" Grid.Row="2"/>
+        <TextBox x:Name="RegisterNumberTextBox" Text="{Binding RegisterNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="2" Margin="100,0" />
 
+        <!-- Register Year Field -->
+        <Label Content="Register Year:" VerticalAlignment="Center" Grid.Row="3"/>
+        <TextBox x:Name="RegisterYearTextBox" Text="{Binding RegisterYear, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="3" Margin="100,0" />
+
+        <!-- Add Index Button -->
+        <Button Content="Add Index" VerticalAlignment="Center" Grid.Row="5" HorizontalAlignment="Center" Width="100" Click="AddIndexButton_Click" />
     </Grid>
 </Window>

@@ -20,13 +20,45 @@ namespace StudentService
         public MainWindow()
         {
             InitializeComponent();
+            }
 
+            //ViewStudents viewStudents = new ViewStudents();
+            //viewStudents.Show();
 
-            ViewStudents viewStudents = new ViewStudents();
-            viewStudents.Show();
+            //ViewProfessors viewProfessors = new ViewProfessors();
+            //viewProfessors.Show();
 
-            ViewProfessors viewProfessors = new ViewProfessors();
-            viewProfessors.Show();
-        }
+            //ViewSubject viewSubject = new ViewSubject();
+            //viewSubject.Show();
+
+            // ViewIndex viewIndex = new ViewIndex();
+            //viewIndex.Show();
+
+            // ViewAdress viewAdress = new ViewAdress();
+            // viewAdress.Show();
+
+            // ViewDepartment viewDepartment = new ViewDepartment();
+            // viewDepartment.Show();
+
+            //ViewGrade viewGrade = new ViewGrade();
+            // viewGrade.Show();
+            private void ProfessorButton_Click(object sender, RoutedEventArgs e)
+            {
+                ViewProfessors viewProfessors = new ViewProfessors();
+                viewProfessors.Show();
+            }
+
+            private void StudentButton_Click(object sender, RoutedEventArgs e)
+            {
+                ViewStudents viewStudents = new ViewStudents();
+                viewStudents.Show();
+            }
+
+            private void SubjectButton_Click(object sender, RoutedEventArgs e)
+            {
+                ViewSubject viewSubject = new ViewSubject();
+                viewSubject.Show();
+            }
+        
     }
 }

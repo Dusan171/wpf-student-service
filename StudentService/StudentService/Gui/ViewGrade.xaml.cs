@@ -1,17 +1,5 @@
-﻿//using System;
+﻿
 using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
 using StudentService.DAO;
 using StudentService.Model;
 using StudentService.Observer;
@@ -39,7 +27,7 @@ namespace StudentService.Gui
         public ViewGrade()
         {
             InitializeComponent();
-            gradeDao = new GradeDao();
+            this.gradeDao = gradeDao;
             Grades = new ObservableCollection<Grade>();
             Update();
             gradeDao.StudentGrade.Subscribe(this);
@@ -82,8 +70,16 @@ namespace StudentService.Gui
                 return;
             }
 
-            gradeDao.RemoveGrade(SelectedGrade.Id);
-            Update();
+            try
+            {
+                // Attempt to remove the grade
+                gradeDao.RemoveGrade(SelectedGrade.Id);
+                Update(); // Refresh the grade list after deletion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting grade: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

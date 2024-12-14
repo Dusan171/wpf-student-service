@@ -1,17 +1,4 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows;
-//using System.Windows.Controls;
-//using System.Windows.Data;
-//using System.Windows.Documents;
-//using System.Windows.Input;
-//using System.Windows.Media;
-//using System.Windows.Media.Imaging;
-//using System.Windows.Shapes;
-
+﻿
 using StudentService.Model;
 using StudentService.DAO;
 using System;
@@ -91,14 +78,28 @@ namespace StudentService.Gui
         {
             try
             {
-                departmentDao.UpdateDepartment(currentDepartment);
-                MessageBox.Show("Department updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
+                if (ValidateInput())
+                {
+                    departmentDao.UpdateDepartment(currentDepartment);
+                    MessageBox.Show("Department updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error updating department: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+        private bool ValidateInput()
+        {
+            // Add validation for required fields
+            return !string.IsNullOrWhiteSpace(Code) &&
+                   !string.IsNullOrWhiteSpace(Name) &&
+                   HeadProfessor != null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
