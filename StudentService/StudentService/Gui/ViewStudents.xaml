@@ -31,8 +31,7 @@
                 <DataGridTextColumn Header="Index" Binding="{Binding Index}" />
                 <DataGridTextColumn Header="Year of Study" Binding="{Binding YearOfStudy}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
-                <DataGridTextColumn Header="Average Grade" Binding="{Binding AvgGrade}" />
-            </DataGrid.Columns>
+                  </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Window>

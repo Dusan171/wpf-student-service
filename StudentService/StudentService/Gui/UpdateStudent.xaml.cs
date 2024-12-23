@@ -2,20 +2,9 @@
 using StudentService.Model.Enums;
 using StudentService.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace StudentService.Gui
 {
@@ -143,8 +132,59 @@ namespace StudentService.Gui
             };
         }
 
+        private bool ValidateFields()
+        {
+            if (string.IsNullOrWhiteSpace(Surname))
+            {
+                MessageBox.Show("Surname cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(StudName))
+            {
+                MessageBox.Show("Name cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (DateOfBirth == null)
+            {
+                MessageBox.Show("Date of Birth cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                MessageBox.Show("Address cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Phone))
+            {
+                MessageBox.Show("Phone cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                MessageBox.Show("Email cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Index))
+            {
+                MessageBox.Show("Index cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (YearOfStudy <= 0)
+            {
+                MessageBox.Show("Year of Study must be a positive number.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
         private void UpdateStudentButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidateFields())
+            {
+                return;
+            }
+
             try
             {
                 studentDao.UpdateStudent(currentStudent);
@@ -158,9 +198,33 @@ namespace StudentService.Gui
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+       
+
+        private void OdustaniButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ClearFields()
+        {
+            Surname = string.Empty;
+            StudName = string.Empty;
+            DateOfBirth = null; // Reset date to null
+            Address = string.Empty;
+            Phone = string.Empty;
+            Email = string.Empty;
+            Index = string.Empty;
+            YearOfStudy = 0;
+            Status = default; // Reset to default enum value
+            AvgGrade = 0; // Clear avg grade
+        }
+
+       
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

@@ -1,9 +1,15 @@
-﻿using StudentService.DAO;
+﻿
 using StudentService.Model;
+using StudentService.DAO;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+
+using StudentService.Model.Enums;
+using System.Collections.ObjectModel;
+using System.Net;
+using System.Security.RightsManagement;
 
 namespace StudentService.Gui
 {
@@ -11,7 +17,15 @@ namespace StudentService.Gui
     {
         private readonly DepartmentDao departmentDao;
         private Department currentDepartment;
-
+        public int Id
+        {
+            get => currentDepartment.Id;
+            set
+            {
+                currentDepartment.Id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
         public string Code
         {
             get => currentDepartment.Code;
@@ -21,7 +35,6 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Code));
             }
         }
-
         public string Name
         {
             get => currentDepartment.Name;
@@ -31,7 +44,6 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Name));
             }
         }
-
         public Professor HeadProfessor
         {
             get => currentDepartment.HeadProfessor;
@@ -41,18 +53,14 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(HeadProfessor));
             }
         }
+  
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Professor> Professors
+        protected void OnPropertyChanged(string propertyName)
         {
-            get => new ObservableCollection<Professor>(currentDepartment.Professors);
-            set
-            {
-                currentDepartment.Professors = new List<Professor>(value);
-                OnPropertyChanged(nameof(Professors));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public UpdateDepartment(Department department, DepartmentDao departmentDao)
+        public UpdateDepartment(Department department,DepartmentDao departmentDao)
         {
             InitializeComponent();
             this.departmentDao = departmentDao;
@@ -64,27 +72,14 @@ namespace StudentService.Gui
         {
             try
             {
-                var updatedDepartment = departmentDao.UpdateDepartment(currentDepartment);
-                if (updatedDepartment != null)
-                {
-                    MessageBox.Show("Department updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("Error: Department not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                departmentDao.UpdateDepartment(currentDepartment);
+                MessageBox.Show("Department updating successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                //Close(); //crveno
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error updating department: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

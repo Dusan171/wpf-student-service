@@ -3,21 +3,55 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
-        Title="UpdateGrade" Height="350" Width="300">
+        Title="UpdateGrade" Height="400" Width="300">
     <Grid Margin="10">
-        <Label Content="Student ID:" VerticalAlignment="Top" />
-        <TextBox x:Name="StudentIdTextBox" Text="{Binding StudentId, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" />
+        <!-- Defining rows and columns to organize form elements -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <Label Content="Subject ID:" VerticalAlignment="Top" Margin="0,30,0,0" />
-        <TextBox x:Name="SubjectIdTextBox" Text="{Binding SubjectId, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <Label Content="Value:" VerticalAlignment="Top" Margin="0,60,0,0" />
-        <TextBox x:Name="ValueTextBox" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,60,0,0" />
+        <!-- Id Label and TextBox -->
+        <Label Content="Id:" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" 
+                 VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Margin="10" />
 
-        <Label Content="Date:" VerticalAlignment="Top" Margin="0,90,0,0" />
-        <DatePicker x:Name="DatePicker" SelectedDate="{Binding Date, Mode=TwoWay}" VerticalAlignment="Top" Margin="100,90,0,0" />
+        <!-- Date Label and DatePicker -->
+        <Label Content="Date:" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
+        <DatePicker x:Name="DatePicker" SelectedDate="{Binding Date, Mode=TwoWay}" 
+                    VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="10" />
 
-        <Button Content="Update Grade" VerticalAlignment="Top" Margin="10,150,0,0" Width="100" Click="UpdateGradeButton_Click" />
+        <!-- Value Label and TextBox -->
+        <Label Content="Value:" VerticalAlignment="Top" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"/>
+        <TextBox x:Name="ValueTextBox" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" 
+                 VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Margin="10" />
+
+        <!-- PassedStudent Label and ComboBox -->
+        <Label Content="Passed Student:" VerticalAlignment="Top" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left"/>
+        <ComboBox x:Name="PassedStudentComboBox" DisplayMemberPath="FullName"  
+                  SelectedItem="{Binding PassedStudent, UpdateSourceTrigger=PropertyChanged}" 
+                  VerticalAlignment="Top" Grid.Row="3" Grid.Column="1" Margin="10" />
+
+        <!-- Subject Label and ComboBox -->
+        <Label Content="Subject:" VerticalAlignment="Top" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"/>
+        <ComboBox x:Name="SubjectComboBox" DisplayMemberPath="Name"  
+                  SelectedItem="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" 
+                  VerticalAlignment="Top" Grid.Row="4" Grid.Column="1" Margin="10" />
+
+        <!-- Update Button -->
+        <Button Content="Update Grade" VerticalAlignment="Top" Margin="10" Width="100" 
+                Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" 
+                Click="UpdateGradeButton_Click"/>
     </Grid>
 </Window>

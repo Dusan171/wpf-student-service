@@ -3,16 +3,34 @@ using StudentService.DAO;
 using System;
 using System.ComponentModel;
 using System.Windows;
+using StudentService.DAO;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace StudentService.Gui
 {
     public partial class CreateDepartment : Window, INotifyPropertyChanged
     {
-        private DepartmentDao departmentDao;
-
-        // Properties with INotifyPropertyChanged implementation
+        private readonly DepartmentDao departmentDao;
+      
+        public CreateDepartment(DepartmentDao departmentDao)
+        {
+            InitializeComponent();
+            this.departmentDao = departmentDao;
+            DataContext = this;
+            
+        }
+        //public int Id { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+        //public string Code { get; set; }
         private string code;
         public string Code
         {
@@ -23,7 +41,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Code));
             }
         }
-
+        // public string Name { get; set; }
         private string name;
         public string Name
         {
@@ -35,69 +53,74 @@ namespace StudentService.Gui
             }
         }
 
-        private int headProfessorId;
-        public int HeadProfessorId
+        // public Professor HeadProfessor { get; set; }
+        private Professor headProfessor;
+        public Professor HeadProfessor
         {
-            get => headProfessorId;
+           get => headProfessor;
             set
             {
-                headProfessorId = value;
-                OnPropertyChanged(nameof(HeadProfessorId));
+               headProfessor = value;
+               OnPropertyChanged(nameof(HeadProfessor));
             }
         }
-
-        private string professorsIds;
-        public string ProfessorsIds
+        // public List<Professor> Professors { get; set; }
+        private List<Professor> professors=new List<Professor>();
+        public List<Professor> Professors
         {
-            get => professorsIds;
-            set
-            {
-                professorsIds = value;
-                OnPropertyChanged(nameof(ProfessorsIds));
-            }
+           get => professors;
+           set
+           {
+               professors = value;
+               OnPropertyChanged(nameof(Professors));
+           }
         }
-
-        public CreateDepartment(DepartmentDao departmentDao)
-        {
-            InitializeComponent();
-            this.departmentDao = departmentDao;
-            DataContext = this;
-        }
-
+        // Metod za dodavanje departmana sa unapređenom obradom grešaka
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Parse professors IDs from input text (separated by commas)
-                List<Professor> professors = ProfessorsIds.Split(',')
-                    .Select(id => new Professor { Id = int.Parse(id.Trim()) }).ToList();
+                // Validacija unosa
+                if (string.IsNullOrEmpty(Code) || string.IsNullOrEmpty(Name) || HeadProfessor == null)
+                {
+                    MessageBox.Show("Please provide all the required fields: Code, Name, and Head Professor.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-                // Create a new Department instance directly from properties
                 Department newDepartment = new Department
                 {
+                    Id = Id, // Generisanje ID-a u DAO klasi je bolje, ali ako želite da ga korisnik unosi, ostavite ovako
                     Code = Code,
                     Name = Name,
-                    HeadProfessor = new Professor { Id = HeadProfessorId },
-                    Professors = professors
+                    HeadProfessor = HeadProfessor,
+                    Professors = Professors
                 };
 
-                departmentDao.Create(newDepartment);
+                var createdDepartment = departmentDao.Create(newDepartment);
+
+                // Obaveštavanje korisnika o uspešnom kreiranju
+                MessageBox.Show($"Department {createdDepartment.Name} created successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Čišćenje polja
                 ClearFields();
             }
             catch (Exception ex)
             {
+                // Obrada greške sa detaljima
                 MessageBox.Show($"Error adding department: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        // Čišćenje svih polja u formi
         private void ClearFields()
         {
+            Id = 0;
             Code = string.Empty;
             Name = string.Empty;
-            HeadProfessorId = 0;
-            ProfessorsIds = string.Empty;
+            HeadProfessor = null; 
+            Professors = new List<Professor>();
         }
-
+        // Event za obaveštavanje o promenama na property-jima
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

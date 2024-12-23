@@ -1,7 +1,7 @@
 ﻿using StudentService.Model;
-using StudentService.Observer;
 using StudentService.Serialization;
 using System.Collections.Generic;
+using StudentService.Observer;
 
 namespace StudentService.DAO
 {
@@ -9,19 +9,19 @@ namespace StudentService.DAO
     {
         private readonly List<Grade> _grades;
         private readonly Storage<Grade> _storage;
-        public DAOSubject GradeSubject;
+
+        public DAOSubject StudentGrade;
 
         public GradeDao()
         {
             _storage = new Storage<Grade>("grades.txt");
-            _grades = _storage.Load();
-            GradeSubject = new DAOSubject();
+            _grades = _storage.Load() ?? new List<Grade>();  // Safe guard in case Load() returns null
+            StudentGrade = new DAOSubject();
         }
 
         private int GenerateId()
         {
-            if (_grades.Count == 0) return 1;
-            return _grades[^1].Id + 1;
+            return _grades.Count == 0 ? 1 : _grades[^1].Id + 1;
         }
 
         public Grade Create(Grade grade)
@@ -29,42 +29,42 @@ namespace StudentService.DAO
             grade.Id = GenerateId();
             _grades.Add(grade);
             _storage.Save(_grades);
-            GradeSubject.NotifyObservers();
+            StudentGrade.NotifyObservers();
             return grade;
         }
 
         public Grade? UpdateGrade(Grade grade)
         {
-            Grade? oldGrade = GetById(grade.Id);
+            var oldGrade = GetById(grade.Id);
             if (oldGrade == null) return null;
 
-            oldGrade.Value = grade.Value;
-            oldGrade.Date = grade.Date;
             oldGrade.PassedStudent = grade.PassedStudent;
             oldGrade.Subject = grade.Subject;
+            oldGrade.Value = grade.Value;
+            oldGrade.Date = grade.Date;
 
             _storage.Save(_grades);
-            GradeSubject.NotifyObservers();
+            StudentGrade.NotifyObservers();
             return oldGrade;
         }
 
         public Grade? RemoveGrade(int id)
         {
-            Grade? grade = GetById(id);
+            var grade = GetById(id);
             if (grade == null) return null;
 
             _grades.Remove(grade);
             _storage.Save(_grades);
-            GradeSubject.NotifyObservers();
+            StudentGrade.NotifyObservers();
             return grade;
         }
 
-        public Grade? GetById(int id)
+        private Grade? GetById(int id)
         {
             return _grades.Find(g => g.Id == id);
         }
 
-        public List<Grade> GetAll()
+        public IEnumerable<Grade> GetAll() // Use IEnumerable for more flexibility
         {
             return _grades;
         }

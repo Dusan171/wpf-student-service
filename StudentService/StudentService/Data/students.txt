@@ -1,3 +1,2 @@
-1|po|po|14.11.2024.|po|po|po|po|2|BUDGET|12
-5|Rad|iradi|12.11.2024.|radi|radi|radi|radi|20|SELF_FINANCE|2
-6|po123|po|28.11.2024.|po|90|90|90|1|BUDGET|900
+6|asd| zx|28.11.2024.|po|90|90|90|1|BUDGET|900
+8|xvfd|vzfdv|14.12.2024.|cdac|7523|adc|123|3|SELF_FINANCE|7

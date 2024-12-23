@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StudentService.Model;
+using StudentService.DAO;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using StudentService.Model;
@@ -6,70 +8,97 @@ using StudentService.DAO;
 
 namespace StudentService.Gui
 {
-    public partial class UpdateAddress : Window, INotifyPropertyChanged
+    /// <summary>
+    /// Interaction logic for UpdateAdress.xaml
+    /// </summary>
+    public partial class UpdateAdress : Window, INotifyPropertyChanged
     {
-        private readonly AddressDao _addressDao;
-        private Adress _currentAddress;
+        private readonly AdressDao adressDao;
+        private Adress currentAdress;
 
-        public string Street
+        //  public int Id { get; set; }
+        public int Id
         {
-            get => _currentAddress.Street;
+            get => currentAdress.Id;
             set
             {
-                _currentAddress.Street = value;
-                OnPropertyChanged(nameof(Street));
+                currentAdress.Id = value;
+                OnPropertyChanged(nameof(Id));
             }
         }
 
-        public int Number
+        // public string Street { get; set; }
+        public string Street
         {
-            get => _currentAddress.Number;
+            get => currentAdress.Street;
             set
             {
-                _currentAddress.Number = value;
+                currentAdress.Street = value;
+                OnPropertyChanged(nameof(Street));
+            }
+        }
+        //  public int Number { get; set; }
+        public int Number
+        {
+            get => currentAdress.Number;
+            set
+            {
+                currentAdress.Number = value;
                 OnPropertyChanged(nameof(Number));
             }
         }
 
+        //  public string Town { get; set; }
         public string Town
         {
-            get => _currentAddress.Town;
+            get => currentAdress.Town;
             set
             {
-                _currentAddress.Town = value;
+                currentAdress.Town = value;
                 OnPropertyChanged(nameof(Town));
             }
         }
+        //  public string Country { get; set; }
 
         public string Country
         {
-            get => _currentAddress.Country;
+            get => currentAdress.Country;
             set
             {
-                _currentAddress.Country = value;
+                currentAdress.Country = value;
                 OnPropertyChanged(nameof(Country));
             }
         }
 
-        public UpdateAddress(Adress address, AddressDao addressDao)
+        public UpdateAdress(Adress adress, AdressDao adressDao)
         {
             InitializeComponent();
-            _addressDao = addressDao;
-            _currentAddress = address;
+            this.adressDao = adressDao;
+            this.currentAdress = adress;
             DataContext = this;
         }
-
-        private void UpdateAddressButton_Click(object sender, RoutedEventArgs e)
+        private bool ValidateInput()
         {
+            if (string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(Town) || string.IsNullOrWhiteSpace(Country) || Number <= 0)
+            {
+                MessageBox.Show("All fields must be filled correctly.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return true;
+        }
+        private void UpdateAdressButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ValidateInput())
+                return;
             try
             {
-                _addressDao.UpdateAddress(_currentAddress);
-                MessageBox.Show("Address updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                adressDao.UpdateAdress(currentAdress);
+                MessageBox.Show("Adress updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating address: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error updating adress: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

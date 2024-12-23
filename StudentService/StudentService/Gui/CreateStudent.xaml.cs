@@ -114,16 +114,7 @@ namespace StudentService.Gui
 
         public ObservableCollection<StudentStatus> StudentStatuses { get; set; }
 
-        private double avgGrade;
-        public double AvgGrade
-        {
-            get => avgGrade;
-            set
-            {
-                avgGrade = value;
-                OnPropertyChanged(nameof(AvgGrade));
-            }
-        }
+     
 
         public CreateStudent(StudentDao studentDao)
         {
@@ -136,11 +127,65 @@ namespace StudentService.Gui
             StudentStatuses.Add(StudentStatus.SELF_FINANCE);
         }
 
-        private void AddStudentButton_Click(object sender, RoutedEventArgs e)
+       
+
+        private bool ValidateFields()
         {
+            if (string.IsNullOrWhiteSpace(Surname))
+            {
+                MessageBox.Show("Surname cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(StudName))
+            {
+                MessageBox.Show("Name cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (DateOfBirth == null)
+            {
+                MessageBox.Show("Date of Birth cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                MessageBox.Show("Address cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Phone))
+            {
+                MessageBox.Show("Phone cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                MessageBox.Show("Email cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Index))
+            {
+                MessageBox.Show("Index cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            if (YearOfStudy <= 0)
+            {
+                MessageBox.Show("Year of Study must be a positive number.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+          
+            
+
+            return true;
+        }
+
+        private void PotvrdiButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ValidateFields())
+            {
+                //MessageBox.Show("All fields must be filled!");
+                return;
+            }
             try
             {
-                // Create a new Student instance directly from properties
                 Student newStudent = new Student
                 {
                     Surname = Surname,
@@ -152,17 +197,25 @@ namespace StudentService.Gui
                     Index = Index,
                     YearOfStudy = YearOfStudy,
                     Status = Status,
-                    AvgGrade = AvgGrade
+                    AvgGrade = 0
                 };
 
                 studentDao.Create(newStudent);
                 ClearFields();
+                Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void OdustaniButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+
 
         private void ClearFields()
         {
@@ -174,7 +227,6 @@ namespace StudentService.Gui
             Index = string.Empty;
             YearOfStudy = 0;
             Status = default; // Reset to the default value
-            AvgGrade = 0.0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

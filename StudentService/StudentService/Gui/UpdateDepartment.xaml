@@ -5,20 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
-        Title="UpdateDepartment" Height="400" Width="300">
-    <Grid Margin="10">
-        <Label Content="Code:" VerticalAlignment="Top" />
-        <TextBox x:Name="CodeTextBox" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,0,0,0" />
+        Title="UpdateDepartment" Height="450" Width="800">
+    <Grid Margin="20">
 
-        <Label Content="Name:" VerticalAlignment="Top" Margin="0,30,0,0" />
-        <TextBox x:Name="NameTextBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,30,0,0" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <Label Content="Head Professor ID:" VerticalAlignment="Top" Margin="0,60,0,0" />
-        <TextBox x:Name="HeadProfessorTextBox" Text="{Binding HeadProfessor.Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,60,0,0" />
+        <!-- Column Definitions -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Label Content="Professors:" VerticalAlignment="Top" Margin="0,90,0,0" />
-        <TextBox x:Name="ProfessorsTextBox" Text="{Binding Professors, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="100,90,0,0" />
+        <!-- Id Field -->
+        <Label Content="Id:" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+        <TextBox x:Name="IdTextBox" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" IsReadOnly="True" Margin="10"/>
 
-        <Button Content="Update Department" VerticalAlignment="Top" Margin="10,300,0,0" Width="100" Click="UpdateDepartmentButton_Click" />
+        <!-- Code Field -->
+        <Label Content="Code:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="CodeTextBox" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="10"/>
+
+        <!-- Name Field -->
+        <Label Content="Name:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+        <TextBox x:Name="NameTextBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="10"/>
+
+        <!-- Head Professor Field -->
+        <Label Content="Head Professor:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0"/>
+        <ComboBox x:Name="HeadProfessorComboBox" 
+                  DisplayMemberPath="Name" 
+                  SelectedItem="{Binding HeadProfessor, UpdateSourceTrigger=PropertyChanged}" 
+                  VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Margin="10"/>
+
+        <!-- Professors List -->
+        <Label Content="Professors:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
+        <ListBox x:Name="ProfessorsListBox" 
+                 ItemsSource="{Binding Professors}" 
+                 DisplayMemberPath="Name" 
+                 SelectionMode="Multiple" 
+                 VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="10"/>
+
+        <!-- Update Button -->
+        <Button Content="Update Department" VerticalAlignment="Top" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" Width="150" HorizontalAlignment="Center" Click="UpdateDepartmentButton_Click"/>
+
+        <!-- Error Message -->
+        <TextBlock x:Name="ErrorMessage" Foreground="Red" Visibility="Collapsed" HorizontalAlignment="Center" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

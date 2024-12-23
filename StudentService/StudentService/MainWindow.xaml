@@ -5,8 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudentService"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Studen Service" 
+         WindowStartupLocation="CenterScreen"
+         Width="{Binding SystemParameters.PrimaryScreenWidth, ConverterParameter=0.75}" 
+         Height="{Binding SystemParameters.PrimaryScreenHeight, ConverterParameter=0.75}"
+        >
 
+    <Grid Height="487" Width="943">
+        <!-- Menu Bar -->
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New" />
+                <MenuItem Header="Open" />
+                <MenuItem Header="Save" />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Students" />
+                <MenuItem Header="Professors" />
+                <MenuItem Header="Subjects" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Toolbar -->
+        <ToolBar VerticalAlignment="Top" Margin="0,25,0,0">
+            <Button Content="Add" Name="AddButton" Click="AddButton_Click"/>
+            <Button Content="Edit" Name="UpdateButton" Click="Button_ClickUpdate"/>
+            <Button Content="Delete" Name="DeleteButton" Click="Button_ClickDelete" />
+        </ToolBar>
+
+        <!-- Central Panel with Tabs -->
+        <TabControl x:Name="mainTab" Margin="10,75,10,25">
+            <TabItem Header="Studenti">
+
+                <DataGrid ItemsSource="{Binding Students}" 
+          SelectedItem="{Binding SelectedStudent}" 
+          IsReadOnly="True" 
+          AutoGenerateColumns="False" 
+          Margin="0,0,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Index" Binding="{Binding Index}" Width="*" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" Width="*" />
+                        <DataGridTextColumn Header="Year of Study" Binding="{Binding YearOfStudy}" Width="*" />
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                        </DataGrid.Columns>
+                </DataGrid>
+
+            </TabItem>
+            <TabItem Header="Profesori">
+                <!-- DataGrid for Professors -->
+                <DataGrid AutoGenerateColumns="True" />
+            </TabItem>
+            <TabItem Header="Predmeti">
+                <!-- DataGrid for Subjects -->
+                <DataGrid AutoGenerateColumns="True" />
+            </TabItem>
+        </TabControl>
+
+        <!-- Status Bar -->
+        <StatusBar VerticalAlignment="Bottom">
+            <TextBlock Text="Status: Ready" />
+        </StatusBar>
     </Grid>
 </Window>

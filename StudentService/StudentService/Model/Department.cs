@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Diagnostics.Metrics;
-//using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StudentService.Serialization;
-//using StudentService.Model.Enums;
+
 
 namespace StudentService.Model
 {
@@ -37,6 +35,11 @@ namespace StudentService.Model
             Code = values[1];
             Name = values[2];
             HeadProfessor = new Professor() { Id = int.Parse(values[3]) };
+            Professors = new List<Professor>();
+        }
+        public void AddProfessor(Professor professor)
+        {
+            Professors.Add(professor);
         }
     }
 }

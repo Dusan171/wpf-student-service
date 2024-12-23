@@ -1,5 +1,5 @@
-﻿using StudentService.DAO;
-using StudentService.Model;
+﻿using StudentService.Model;
+using StudentService.DAO;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -12,29 +12,42 @@ namespace StudentService.Gui
     public partial class UpdateGrade : Window, INotifyPropertyChanged
     {
         private readonly GradeDao gradeDao;
-        private readonly StudentDao studentDao;
         private Grade currentGrade;
 
-        public int StudentId
+        // public int Id { get; set; }
+        public int Id
         {
-            get => currentGrade.PassedStudent.Id;
+            get => currentGrade.Id;
             set
             {
-                currentGrade.PassedStudent.Id = value;
-                OnPropertyChanged(nameof(StudentId));
+                currentGrade.Id = value;
+                OnPropertyChanged(nameof(Id));
             }
         }
 
-        public int SubjectId
+        // public Student PassedStudent { get; set; }
+        public Student PassedStudent
         {
-            get => currentGrade.Subject.Id;
+            get => currentGrade.PassedStudent;
             set
             {
-                currentGrade.Subject.Id = value;
-                OnPropertyChanged(nameof(SubjectId));
+                currentGrade.PassedStudent = value;
+                OnPropertyChanged(nameof(PassedStudent));
             }
         }
 
+        // public Subject Subject { get; set; }
+        public Subject Subject
+        {
+            get => currentGrade.Subject;
+            set
+            {
+                currentGrade.Subject = value;
+                OnPropertyChanged(nameof(Subject));
+            }
+        }
+
+        // public int Value { get; set; }
         public int Value
         {
             get => currentGrade.Value;
@@ -45,21 +58,21 @@ namespace StudentService.Gui
             }
         }
 
-        public DateTime? Date
+        // public DateOnly Date { get; set; }
+        public DateOnly Date
         {
-            get => currentGrade.Date.ToDateTime(new TimeOnly());
+            get => currentGrade.Date;
             set
             {
-                currentGrade.Date = DateOnly.FromDateTime(value ?? DateTime.Now);
+                currentGrade.Date = value;
                 OnPropertyChanged(nameof(Date));
             }
         }
 
-        public UpdateGrade(Grade grade, GradeDao gradeDao, StudentDao studentDao)
+        public UpdateGrade(Grade grade, GradeDao gradeDao)
         {
             InitializeComponent();
             this.gradeDao = gradeDao;
-            this.studentDao = studentDao;
             this.currentGrade = grade;
             DataContext = this;
         }
@@ -68,13 +81,6 @@ namespace StudentService.Gui
         {
             try
             {
-                // Ensure the student exists
-                if (studentDao.GetById(StudentId) == null)
-                {
-                    MessageBox.Show("Student not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 gradeDao.UpdateGrade(currentGrade);
                 MessageBox.Show("Grade updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
