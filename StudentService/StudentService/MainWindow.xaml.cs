@@ -1,13 +1,5 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using StudentService.DAO;
 using StudentService.Gui;
 
 namespace StudentService
@@ -17,16 +9,32 @@ namespace StudentService
     /// </summary>
     public partial class MainWindow : Window
     {
+        private StudentDao studentDao;
+        private GradeDao gradeDao;
+
         public MainWindow()
         {
             InitializeComponent();
 
+            // Inicijalizacija DAO objekata
+            studentDao = new StudentDao();
+            gradeDao = new GradeDao();
 
+            // Otvaranje prozora za prikaz studenata
             ViewStudents viewStudents = new ViewStudents();
             viewStudents.Show();
 
+            // Otvaranje prozora za prikaz profesora
             ViewProfessors viewProfessors = new ViewProfessors();
             viewProfessors.Show();
+
+            // Otvaranje prozora za prikaz odeljenja
+            ViewDepartments viewDepartments = new ViewDepartments();
+            viewDepartments.Show();
+
+            // Otvaranje prozora za prikaz ocena
+            ViewGrade viewGrade = new ViewGrade(studentDao);
+            viewGrade.Show();
         }
     }
 }

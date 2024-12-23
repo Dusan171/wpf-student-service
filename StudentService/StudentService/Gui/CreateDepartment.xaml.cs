@@ -1,34 +1,23 @@
 ﻿using StudentService.Model;
+using StudentService.DAO;
 using System;
 using System.ComponentModel;
 using System.Windows;
-using StudentService.DAO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StudentService.Gui
 {
-    /// <summary>
-    /// Interaction logic for CreateDepartment.xaml
-    /// </summary>
     public partial class CreateDepartment : Window, INotifyPropertyChanged
     {
         private DepartmentDao departmentDao;
 
-        private int id;
-        public int Id
-        {
-            get => id;
-            set
-            {
-                id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
-
+        // Properties with INotifyPropertyChanged implementation
         private string code;
         public string Code
         {
             get => code;
-            set 
+            set
             {
                 code = value;
                 OnPropertyChanged(nameof(Code));
@@ -38,52 +27,58 @@ namespace StudentService.Gui
         private string name;
         public string Name
         {
-            get=> name;
+            get => name;
             set
             {
                 name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
-        private Professor headProfessor;
-        public Professor HeadProfessor
+
+        private int headProfessorId;
+        public int HeadProfessorId
         {
-            get => headProfessor;
+            get => headProfessorId;
             set
             {
-                headProfessor = value;
-                OnPropertyChanged(nameof(HeadProfessor));
+                headProfessorId = value;
+                OnPropertyChanged(nameof(HeadProfessorId));
             }
         }
-        private void ClearFields()
+
+        private string professorsIds;
+        public string ProfessorsIds
         {
-            Name = string.Empty;
-            Id = 0;
-            Code = string.Empty;
+            get => professorsIds;
+            set
+            {
+                professorsIds = value;
+                OnPropertyChanged(nameof(ProfessorsIds));
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
         public CreateDepartment(DepartmentDao departmentDao)
         {
             InitializeComponent();
             this.departmentDao = departmentDao;
-            //DataContext = this; //crveno
+            DataContext = this;
         }
+
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Parse professors IDs from input text (separated by commas)
+                List<Professor> professors = ProfessorsIds.Split(',')
+                    .Select(id => new Professor { Id = int.Parse(id.Trim()) }).ToList();
+
                 // Create a new Department instance directly from properties
                 Department newDepartment = new Department
                 {
-                    Id =Id,
-                    Code=Code,
-                    Name=Name,
+                    Code = Code,
+                    Name = Name,
+                    HeadProfessor = new Professor { Id = HeadProfessorId },
+                    Professors = professors
                 };
 
                 departmentDao.Create(newDepartment);
@@ -94,6 +89,20 @@ namespace StudentService.Gui
                 MessageBox.Show($"Error adding department: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-      
+
+        private void ClearFields()
+        {
+            Code = string.Empty;
+            Name = string.Empty;
+            HeadProfessorId = 0;
+            ProfessorsIds = string.Empty;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

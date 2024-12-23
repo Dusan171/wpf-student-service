@@ -1,0 +1,32 @@
+﻿<Window x:Class="StudentService.Gui.ViewDepartments"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudentService.Gui"
+        mc:Ignorable="d"
+        Title="ViewDepartments" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Button panel -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <Button Content="Create Department" Click="Button_ClickCreate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Update Department" Click="Button_ClickUpdate" Width="100" Margin="0,0,10,0" />
+            <Button Content="Delete Department" Click="Button_ClickDelete" Width="100" />
+        </StackPanel>
+
+        <!-- DataGrid to display the list of departments -->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,50,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Head Professor" Binding="{Binding HeadProfessor.Name}" />
+                <DataGridTextColumn Header="Professors Count" Binding="{Binding Professors.Count}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

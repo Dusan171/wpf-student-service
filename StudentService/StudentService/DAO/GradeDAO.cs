@@ -1,7 +1,7 @@
 ﻿using StudentService.Model;
+using StudentService.Observer;
 using StudentService.Serialization;
 using System.Collections.Generic;
-using StudentService.Observer;
 
 namespace StudentService.DAO
 {
@@ -9,13 +9,13 @@ namespace StudentService.DAO
     {
         private readonly List<Grade> _grades;
         private readonly Storage<Grade> _storage;
-
-        public DAOSubject StudentGrade;
+        public DAOSubject GradeSubject;
 
         public GradeDao()
         {
             _storage = new Storage<Grade>("grades.txt");
             _grades = _storage.Load();
+            GradeSubject = new DAOSubject();
         }
 
         private int GenerateId()
@@ -29,6 +29,7 @@ namespace StudentService.DAO
             grade.Id = GenerateId();
             _grades.Add(grade);
             _storage.Save(_grades);
+            GradeSubject.NotifyObservers();
             return grade;
         }
 
@@ -37,12 +38,13 @@ namespace StudentService.DAO
             Grade? oldGrade = GetById(grade.Id);
             if (oldGrade == null) return null;
 
-            oldGrade.PassedStudent = grade.PassedStudent;
-            oldGrade.Subject = grade.Subject;
             oldGrade.Value = grade.Value;
             oldGrade.Date = grade.Date;
+            oldGrade.PassedStudent = grade.PassedStudent;
+            oldGrade.Subject = grade.Subject;
 
             _storage.Save(_grades);
+            GradeSubject.NotifyObservers();
             return oldGrade;
         }
 
@@ -53,10 +55,11 @@ namespace StudentService.DAO
 
             _grades.Remove(grade);
             _storage.Save(_grades);
+            GradeSubject.NotifyObservers();
             return grade;
         }
 
-        private Grade? GetById(int id)
+        public Grade? GetById(int id)
         {
             return _grades.Find(g => g.Id == id);
         }

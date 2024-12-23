@@ -1,44 +1,17 @@
 ﻿using StudentService.DAO;
 using StudentService.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using StudentService.Model.Enums;
 using System.Collections.ObjectModel;
-using System.Net;
-using System.Security.RightsManagement;
+using System.ComponentModel;
+using System.Windows;
 
 namespace StudentService.Gui
 {
-    /// <summary>
-    /// Interaction logic for UpdateDepartment.xaml
-    /// </summary>
     public partial class UpdateDepartment : Window, INotifyPropertyChanged
     {
         private readonly DepartmentDao departmentDao;
         private Department currentDepartment;
-        public int Id
-        {
-            get => currentDepartment.Id;
-            set
-            {
-                currentDepartment.Id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
+
         public string Code
         {
             get => currentDepartment.Code;
@@ -48,6 +21,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Code));
             }
         }
+
         public string Name
         {
             get => currentDepartment.Name;
@@ -57,6 +31,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Name));
             }
         }
+
         public Professor HeadProfessor
         {
             get => currentDepartment.HeadProfessor;
@@ -66,32 +41,50 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(HeadProfessor));
             }
         }
-  
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
+        public ObservableCollection<Professor> Professors
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => new ObservableCollection<Professor>(currentDepartment.Professors);
+            set
+            {
+                currentDepartment.Professors = new List<Professor>(value);
+                OnPropertyChanged(nameof(Professors));
+            }
         }
-        public UpdateDepartment(Department department,DepartmentDao departmentDao)
+
+        public UpdateDepartment(Department department, DepartmentDao departmentDao)
         {
             InitializeComponent();
             this.departmentDao = departmentDao;
             this.currentDepartment = department;
-           // DataContext = this; //crveno
+            DataContext = this;
         }
+
         private void UpdateDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                departmentDao.UpdateDepartment(currentDepartment);
-                MessageBox.Show("Department updating successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                //Close(); //crveno
+                var updatedDepartment = departmentDao.UpdateDepartment(currentDepartment);
+                if (updatedDepartment != null)
+                {
+                    MessageBox.Show("Department updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Error: Department not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error updating department: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

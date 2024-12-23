@@ -1,45 +1,16 @@
-﻿using StudentService.DAO;
-using StudentService.Model;
-using StudentService.Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
-
-using System.Net;
+using StudentService.DAO;
+using StudentService.Model;
 
 namespace StudentService.Gui
 {
-    /// <summary>
-    /// Interaction logic for CreateAdress.xaml
-    /// </summary>
-    public partial class CreateDAOAdress : Window, INotifyPropertyChanged
+    public partial class CreateAdress : Window, INotifyPropertyChanged
     {
-        private AddressDao adressDao;
+        private readonly AddressDao _addressDao;
 
-        private int id;
-        public int Id
-        {
-            get => id;
-            set
-            {
-                id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
+        // Properties with INotifyPropertyChanged implementation
         private string street;
         public string Street
         {
@@ -50,6 +21,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Street));
             }
         }
+
         private int number;
         public int Number
         {
@@ -60,36 +32,61 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Number));
             }
         }
+
         private string town;
         public string Town
         {
-            get=> town;
+            get => town;
             set
             {
                 town = value;
                 OnPropertyChanged(nameof(Town));
             }
         }
+
         private string country;
         public string Country
         {
-            get=> country;
+            get => country;
             set
             {
                 country = value;
                 OnPropertyChanged(nameof(Country));
             }
         }
-        public CreateDAOAdress(AddressDao adressDao)
+
+        public CreateAdress(AddressDao addressDao)
         {
-            //InitializeComponent(); //CRVENO
-            this.adressDao = adressDao;
+            InitializeComponent();
+            _addressDao = addressDao;
             DataContext = this;
         }
+
+        private void AddAddressButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Create a new Address instance directly from properties
+                Adress newAddress = new Adress
+                {
+                    Street = Street,
+                    Number = Number,
+                    Town = Town,
+                    Country = Country
+                };
+
+                _addressDao.Create(newAddress);
+                ClearFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding address: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void ClearFields()
         {
-            Id = 0;
-            Street = string.Empty; 
+            Street = string.Empty;
             Number = 0;
             Town = string.Empty;
             Country = string.Empty;
@@ -101,28 +98,5 @@ namespace StudentService.Gui
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        private void AddAdressButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // Create a new Adres instance directly from properties
-                Adress newAdress = new Adress
-                {
-                    Id = id,
-                    Street=Street,
-                    Number=Number,
-                    Town=Town,
-                    Country=Country
-                };
-
-                adressDao.Create(newAdress);
-                ClearFields();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding student: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-      
     }
 }

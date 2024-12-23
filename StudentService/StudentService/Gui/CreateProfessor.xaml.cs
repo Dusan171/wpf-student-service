@@ -1,7 +1,7 @@
-﻿using StudentService.Model;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using StudentService.Model;
 using StudentService.DAO;
 
 namespace StudentService.Gui

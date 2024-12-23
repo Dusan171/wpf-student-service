@@ -66,7 +66,7 @@ namespace StudentService.DAO
             return student;
         }
 
-        private Student? GetById(int id)
+        public Student? GetById(int id)
         {
             return _students.Find(s => s.Id == id);
         }

@@ -1,7 +1,7 @@
 ﻿using StudentService.Model;
+using StudentService.Observer;
 using StudentService.Serialization;
 using System.Collections.Generic;
-using StudentService.Observer;
 
 namespace StudentService.DAO
 {

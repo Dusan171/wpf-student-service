@@ -1,62 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using StudentService.Model.Enums;
+﻿using StudentService.DAO;
 using StudentService.Model;
+using System;
 using System.ComponentModel;
-using StudentService.DAO;
-using System.Collections.ObjectModel;
-using System.Net;
-using System.Threading.Channels;
+using System.Windows;
 
 namespace StudentService.Gui
 {
     /// <summary>
     /// Interaction logic for UpdateGrade.xaml
     /// </summary>
-    public partial class UpdateGRADE : Window, INotifyPropertyChanged
+    public partial class UpdateGrade : Window, INotifyPropertyChanged
     {
         private readonly GradeDao gradeDao;
+        private readonly StudentDao studentDao;
         private Grade currentGrade;
-        public int Id
+
+        public int StudentId
         {
-            get => currentGrade.Id;
+            get => currentGrade.PassedStudent.Id;
             set
             {
-                currentGrade.Id = value;
-                OnPropertyChanged(nameof(Id));
+                currentGrade.PassedStudent.Id = value;
+                OnPropertyChanged(nameof(StudentId));
             }
         }
-        public Student PassedStudent
+
+        public int SubjectId
         {
-            get => currentGrade.PassedStudent;
+            get => currentGrade.Subject.Id;
             set
             {
-                currentGrade.PassedStudent = value;
-                OnPropertyChanged(nameof(PassedStudent));
+                currentGrade.Subject.Id = value;
+                OnPropertyChanged(nameof(SubjectId));
             }
         }
-        public Subject Subject
-        {
-            get => currentGrade.Subject;
-            set
-            {
-                currentGrade.Subject = value;
-                OnPropertyChanged(nameof(Subject));
-            }
-        }
+
         public int Value
         {
             get => currentGrade.Value;
@@ -66,41 +44,51 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Value));
             }
         }
-        public UpdateGRADE(Grade grade, GradeDao gradeDao)
+
+        public DateTime? Date
         {
-           // InitializeComponent(); //crveno
+            get => currentGrade.Date.ToDateTime(new TimeOnly());
+            set
+            {
+                currentGrade.Date = DateOnly.FromDateTime(value ?? DateTime.Now);
+                OnPropertyChanged(nameof(Date));
+            }
+        }
+
+        public UpdateGrade(Grade grade, GradeDao gradeDao, StudentDao studentDao)
+        {
+            InitializeComponent();
             this.gradeDao = gradeDao;
+            this.studentDao = studentDao;
             this.currentGrade = grade;
             DataContext = this;
-
-        }
-        /*
- *  public int Id { get; set; }e
-public Student PassedStudent { get; set; }
-public Subject Subject { get; set; }
-public int Value { get; set; }
-public DateOnly Date { get; set; }
- */
-      
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void AddGradeButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateGradeButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Ensure the student exists
+                if (studentDao.GetById(StudentId) == null)
+                {
+                    MessageBox.Show("Student not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 gradeDao.UpdateGrade(currentGrade);
                 MessageBox.Show("Grade updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close(); 
+                Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error updating grade: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

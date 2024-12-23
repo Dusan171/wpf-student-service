@@ -1,124 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using StudentService.Model.Enums;
+﻿using StudentService.DAO;
 using StudentService.Model;
 using System.ComponentModel;
-using StudentService.DAO;
-using System.Collections.ObjectModel;
-using System.Net;
+using System.Windows;
 
 namespace StudentService.Gui
 {
-    /// <summary>
-    /// Interaction logic for CreateGrade.xaml
-    /// </summary>
-    public partial class CreateDAOGrade : Window, INotifyPropertyChanged
+    public partial class CreateGrade : Window, INotifyPropertyChanged
     {
-   
         private GradeDao gradeDao;
+        private StudentDao studentDao;
 
-        private int id;
-        public int Id
+        public CreateGrade(GradeDao gradeDao, StudentDao studentDao)
         {
-            get => id;
-            set
-            {
-                id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
-        private Student passedStudent;
-        public Student PassedStudent
-        {
-            get => passedStudent;
-            set
-            {
-                passedStudent = value;
-                OnPropertyChanged(nameof(PassedStudent));
-            }
-        }
-        private Subject subject;
-        public Subject Subject
-        {
-            get => subject;
-            set
-            {
-                subject = value;
-                OnPropertyChanged(nameof(Subject));
-            }
-        }
-        private int vAlue;
-        public int Value
-        {
-            get => vAlue;
-            set
-            {
-                vAlue = value;
-                OnPropertyChanged(nameof(Value));
-            }
-        }
-        public CreateDAOGrade(GradeDao gradeDao)
-        {
-            //InitializeComponent(); //crveno
+            InitializeComponent();
             this.gradeDao = gradeDao;
-            DataContext = this;
-
+            this.studentDao = studentDao;
         }
-        /*
- *  public int Id { get; set; }e
-public Student PassedStudent { get; set; }
-public Subject Subject { get; set; }
-public int Value { get; set; }
-public DateOnly Date { get; set; }
- */
-        private void ClearFields()
+
+        private void AddGradeButton_Click(object sender, RoutedEventArgs e)
         {
-            Id = 0;
-            Value = 0;
-            //PassedStudent?
-            //Subject?
-            //Date?
-
+            // Validate inputs
+            if (string.IsNullOrEmpty(StudentIdTextBox.Text) ||
+                string.IsNullOrEmpty(SubjectIdTextBox.Text) ||
+                string.IsNullOrEmpty(GradeValueTextBox.Text) ||
+                GradeDatePicker.SelectedDate == null)
+            {
+                MessageBox.Show("Please fill in all fields.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
         }
+
+        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void AddGradeButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // Create a new Grade instance directly from properties
-                Grade newGrade = new Grade
-                {
-                    Id =Id,
-                    Value=Value,
-
-                };
-
-                gradeDao.Create(newGrade);
-                ClearFields();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding grade: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
     }
 }
