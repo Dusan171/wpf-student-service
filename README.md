@@ -2,4 +2,4 @@
 
 Članovi tima:
 * Bojana Milošević
-* Dusan Lazić
+* Dušan Lazić
