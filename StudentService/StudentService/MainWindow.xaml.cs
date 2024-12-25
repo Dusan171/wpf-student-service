@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics.Eventing.Reader;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using StudentService.DAO;
 using StudentService.Gui;
 using StudentService.Model;
@@ -19,6 +20,7 @@ namespace StudentService
         private GradeDao gradeDao;
 
         public Student SelectedStudent { get; set; }
+        private DispatcherTimer _timer;
 
         public MainWindow()
         {
@@ -29,45 +31,23 @@ namespace StudentService
             Update();
             studentDao.StudentSubject.Subscribe(this);
             DataContext = this;
+
+            InitializeDateTime();
         }
 
-
-        //ViewStudents viewStudents = new ViewStudents();
-        //viewStudents.Show();
-
-        //ViewProfessors viewProfessors = new ViewProfessors();
-        //viewProfessors.Show();
-
-        //ViewSubject viewSubject = new ViewSubject();
-        //viewSubject.Show();
-
-        // ViewIndex viewIndex = new ViewIndex();
-        //viewIndex.Show();
-
-        // ViewAdress viewAdress = new ViewAdress();
-        // viewAdress.Show();
-
-        // ViewDepartment viewDepartment = new ViewDepartment();
-        // viewDepartment.Show();
-
-        //ViewGrade viewGrade = new ViewGrade();
-        // viewGrade.Show();
-        private void ProfessorButton_Click(object sender, RoutedEventArgs e)
+        private void InitializeDateTime()
         {
-            ViewProfessors viewProfessors = new ViewProfessors();
-            viewProfessors.Show();
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += (sender, e) =>
+            {
+                // Ažurira TextBlock u statusnoj traci
+                DateTimeTextBlock.Text = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
+            };
+            _timer.Start();
         }
-
-        
-
-        private void SubjectButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewSubject viewSubject = new ViewSubject();
-            viewSubject.Show();
-        }
-
-
-     
 
         public void Update()
         {
@@ -79,7 +59,27 @@ namespace StudentService
             }
         }
 
-      
+        private void MainTab_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            // Get the selected tab header and update the status bar
+            var selectedTab = mainTab.SelectedItem as System.Windows.Controls.TabItem;
+            if (selectedTab != null)
+            {
+                CurrentTabTextBlock.Text = selectedTab.Header.ToString();
+            }
+        }
+
+        private void ProfessorButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewProfessors viewProfessors = new ViewProfessors();
+            viewProfessors.Show();
+        }
+
+        private void SubjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewSubject viewSubject = new ViewSubject();
+            viewSubject.Show();
+        }
 
         private void Button_ClickUpdate(object sender, RoutedEventArgs e)
         {
@@ -87,9 +87,9 @@ namespace StudentService
             {
                 return;
             }
+
             UpdateStudent updateStudent = new UpdateStudent(SelectedStudent, studentDao);
             updateStudent.Show();
-
         }
 
         private void Button_ClickDelete(object sender, RoutedEventArgs e)
@@ -100,20 +100,15 @@ namespace StudentService
                 return;
             }
 
-            // Confirmation dialog
             var result = MessageBox.Show($"Are you sure you want to delete the student {SelectedStudent.Name} {SelectedStudent.Surname}?",
                                           "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                
-                    studentDao.RemoveStudent(SelectedStudent.Id); // Assuming RemoveStudent takes the student ID
-                    Update(); // Refresh the UI or data grid
-                    
-               
+                studentDao.RemoveStudent(SelectedStudent.Id); // Assuming RemoveStudent takes the student ID
+                Update(); // Refresh the UI or data grid
             }
         }
-
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -130,7 +125,6 @@ namespace StudentService
                     return;
                 }
 
-                // Determine which button was clicked
                 Button clickedButton = sender as Button;
                 if (clickedButton?.Name == "UpdateButton") // Update Button Logic
                 {
@@ -144,15 +138,11 @@ namespace StudentService
 
                     if (result == MessageBoxResult.Yes)
                     {
-                      
-                            studentDao.RemoveStudent(SelectedStudent.Id); // Assuming RemoveStudent takes the student ID
-                            Update(); // Refresh the UI or data grid
-                           
+                        studentDao.RemoveStudent(SelectedStudent.Id); // Assuming RemoveStudent takes the student ID
+                        Update(); // Refresh the UI or data grid
                     }
                 }
             }
         }
-
-
     }
 }
