@@ -8,14 +8,11 @@ using System.Collections.ObjectModel;
 
 namespace StudentService.Gui
 {
-    /// <summary>
-    /// Interaction logic for CreateSubject.xaml
-    /// </summary>
     public partial class CreateSubject : Window, INotifyPropertyChanged
     {
         private SubjectDao subjectDao;
-
-        //public int Id { get; set; }
+        private ProfessorDao professorDao;
+     
         private int id;
         public int Id
         {
@@ -26,7 +23,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Id));
             }
         }
-        //public string Code { get; set; }
+
         private string code;
         public string Code
         {
@@ -37,29 +34,29 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Code));
             }
         }
-        //public string Name { get; set; }
+
         private string name;
-        public string Name
+        public string NameSubj
         {
             get => name;
             set
             {
                 name = value;
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(NameSubj));
             }
         }
-        //public Semester Semester { get; set; }
+
         private Semester semester;
         public Semester SemesterStud
         {
             get => semester;
             set
-                {
+            {
                 semester = value;
                 OnPropertyChanged(nameof(SemesterStud));
-                }
+            }
         }
-        //public int YearOfStudy { get; set; }
+
         private int yearOfStudy;
         public int YearOfStudy
         {
@@ -70,20 +67,18 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(YearOfStudy));
             }
         }
-        //public Professor Professor { get; set; }
-        private Professor professor;
 
-        public Professor Professor
+        private Professor selectedProfessor;
+        public Professor SelectedProfessor
         {
-            get => professor;
+            get => selectedProfessor;
             set
             {
-                professor = value;
-                OnPropertyChanged(nameof(Professor));
+                selectedProfessor = value;
+                OnPropertyChanged(nameof(SelectedProfessor));
             }
         }
 
-        //public int Espb { get; set; }
         private int espb;
         public int Espb
         {
@@ -94,86 +89,55 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Espb));
             }
         }
-        //public List<Student> PassedStudents { get; set; }
-        private List<Student> passedStudents= new List<Student>();
-        public List<Student> PassedStudents
-        {
-            get => passedStudents;
-            set
-            {
-                passedStudents = value ?? new List<Student>();
-                OnPropertyChanged(nameof(PassedStudents));
-            }
-        }
 
-        // public List<Student> AttendingStudents { get; set; }
-        private List<Student> attendingStudents= new List<Student>();
-        public List<Student> AttendingStudents
-        { 
-             get=> attendingStudents;
-            set
-            {
-                attendingStudents = value ?? new List<Student>();
-                OnPropertyChanged(nameof(AttendingStudents));
-            }
-        }
+        public ObservableCollection<Professor> Professors { get; set; }
         public ObservableCollection<Semester> AvailableSemesters { get; set; }
-        public CreateSubject(SubjectDao subjectDao)
+
+        public CreateSubject(SubjectDao subjectDao, ProfessorDao professorDao)
         {
             InitializeComponent();
             this.subjectDao = subjectDao;
-            DataContext = this;
+            this.professorDao = professorDao;
 
+            // Load available professors
+            Professors = new ObservableCollection<Professor>(professorDao.GetAll());
+
+            // Load available semesters
             AvailableSemesters = new ObservableCollection<Semester>
             {
                 Semester.SUMMER,
                 Semester.WINTER
             };
-        }
-
-        private void AddSubjectButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
+            DataContext = this;
+            PropertyChanged += (s, e) =>
             {
-                // Ensure required fields are filled
-                if (string.IsNullOrEmpty(Code) || string.IsNullOrEmpty(Name) || Professor == null || YearOfStudy == 0)
+                if (e.PropertyName != nameof(AreFieldsValid))
                 {
-                    MessageBox.Show("Please fill all required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    OnPropertyChanged(nameof(AreFieldsValid));
                 }
-
-                Subject newSubject = new Subject
-                {
-                     Id = Id,
-                     Code = Code,
-                     Name = Name,
-                     Semester = SemesterStud,
-                     YearOfStudy = YearOfStudy,
-                     Professor = Professor,
-                     Espb = Espb,
-                     PassedStudents = PassedStudents,
-                     AttendingStudents = AttendingStudents
-                };
-
-                subjectDao.Create(newSubject);
-                ClearFields();
-            }
-            catch (Exception ex)
+            };
+        }
+        public bool AreFieldsValid
+        {
+            get
             {
-                MessageBox.Show($"Error adding subject: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return !string.IsNullOrEmpty(Code) &&
+                       !string.IsNullOrEmpty(NameSubj) &&
+                       SelectedProfessor != null &&
+                       SemesterStud == Semester.WINTER || SemesterStud == Semester.SUMMER &&
+                       YearOfStudy > 0 &&
+                       Espb > 0;
             }
         }
-
         private void ClearFields()
         {
             Id = 0;
             Code = string.Empty;
-            Name = string.Empty;
+            NameSubj = string.Empty;
             Espb = 0;
             YearOfStudy = 0;
             SemesterStud = default(Semester);
-            PassedStudents.Clear();
-            AttendingStudents.Clear();
+            SelectedProfessor = null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -181,6 +145,33 @@ namespace StudentService.Gui
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private void PotvrdiButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Subject newSubject = new Subject
+                {
+                    Id = Id,
+                    Code = Code,
+                    Name = NameSubj,
+                    Semester = SemesterStud,
+                    YearOfStudy = YearOfStudy,
+                    Professor = SelectedProfessor,
+                    Espb = Espb
+                };
+
+                subjectDao.Create(newSubject);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding subject: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void OdustaniButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
