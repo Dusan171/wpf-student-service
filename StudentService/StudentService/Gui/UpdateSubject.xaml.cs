@@ -29,7 +29,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(SemesterStud));
             }
         }
-        public ObservableCollection<Professor> Professors { get; } = new ObservableCollection<Professor>();
+        public ObservableCollection<Professor> Professors { get; set; } = new ObservableCollection<Professor>();
 
         public int Id
         {
@@ -108,25 +108,18 @@ namespace StudentService.Gui
             InitializeComponent();
             this.subjectDao = subjectDao;
             this.professorDao = professorDao;
-            this.currentSubject = subject;
+            
             AvailableSemesters = new ObservableCollection<Semester>(Enum.GetValues(typeof(Semester)).Cast<Semester>());
             AvailableProfessors = new ObservableCollection<Professor>(professorDao.GetAll());
+
+            this.currentSubject = subject;
+
+            SemesterStud = subject.Semester;
+            Professor = subject.Professor;
             // LoadProfessors();
 
             DataContext = this;
         }
-
-        /* private void LoadProfessors()
-         {
-             var professors = professorDao.GetAll();
-             Professors.Clear();
-
-             foreach (var professor in professors)
-             {
-                 Professors.Add(professor);
-             }
-         }*/
-
         private void UpdateSubjectButton_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -32,7 +32,7 @@
         <!-- Semester -->
         <Label Content="Semester:" VerticalAlignment="Center" Grid.Row="3"/>
         <ComboBox x:Name="SemesterComboBox" ItemsSource="{Binding AvailableSemesters}" 
-                  SelectedItem="{Binding Semester}" VerticalAlignment="Center" Grid.Row="3" Margin="100,0,0,0"/>
+                  SelectedItem="{Binding SemesterStud}" VerticalAlignment="Center" Grid.Row="3" Margin="100,0,0,0"/>
 
         <!-- Year of Study -->
         <Label Content="Year of Study:" VerticalAlignment="Center" Grid.Row="4"/>
