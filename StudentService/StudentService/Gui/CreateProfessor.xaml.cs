@@ -18,17 +18,19 @@ namespace StudentService.Gui
             {
                 surname = value;
                 OnPropertyChanged(nameof(Surname));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
         private string name;
-        public string Name
+        public string FirstName
         {
             get => name;
             set
             {
                 name = value;
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(FirstName));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -40,6 +42,7 @@ namespace StudentService.Gui
             {
                 dateOfBirth = value;
                 OnPropertyChanged(nameof(DateOfBirth));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -51,6 +54,7 @@ namespace StudentService.Gui
             {
                 address = value;
                 OnPropertyChanged(nameof(Address));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -62,6 +66,7 @@ namespace StudentService.Gui
             {
                 phone = value;
                 OnPropertyChanged(nameof(Phone));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -73,6 +78,7 @@ namespace StudentService.Gui
             {
                 email = value;
                 OnPropertyChanged(nameof(Email));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -84,6 +90,7 @@ namespace StudentService.Gui
             {
                 idNumber = value;
                 OnPropertyChanged(nameof(IdNumber));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -95,6 +102,7 @@ namespace StudentService.Gui
             {
                 vocation = value;
                 OnPropertyChanged(nameof(Vocation));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
 
@@ -106,8 +114,20 @@ namespace StudentService.Gui
             {
                 yearsOfService = value;
                 OnPropertyChanged(nameof(YearsOfService));
+                OnPropertyChanged(nameof(AreFieldsValid));
             }
         }
+
+        public bool AreFieldsValid =>
+            !string.IsNullOrWhiteSpace(Surname) &&
+            !string.IsNullOrWhiteSpace(FirstName) &&
+            DateOfBirth.HasValue &&
+            !string.IsNullOrWhiteSpace(Address) &&
+            !string.IsNullOrWhiteSpace(Phone) &&
+            !string.IsNullOrWhiteSpace(Email) &&
+            !string.IsNullOrWhiteSpace(IdNumber) &&
+            !string.IsNullOrWhiteSpace(Vocation) &&
+            YearsOfService >= 0;
 
         public CreateProfessor(ProfessorDao professorDao)
         {
@@ -116,14 +136,14 @@ namespace StudentService.Gui
             DataContext = this;
         }
 
-        private void AddProfessorButton_Click(object sender, RoutedEventArgs e)
+        private void PotvrdiButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Professor newProfessor = new Professor
                 {
                     Surname = Surname,
-                    Name = Name,
+                    Name = FirstName,
                     DateOfBirth = DateOnly.FromDateTime(DateOfBirth.Value),
                     Address = Address,
                     Phone = Phone,
@@ -135,6 +155,7 @@ namespace StudentService.Gui
 
                 professorDao.Create(newProfessor);
                 ClearFields();
+                Close();
             }
             catch (Exception ex)
             {
@@ -142,16 +163,22 @@ namespace StudentService.Gui
             }
         }
 
+        private void OdustaniButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         private void ClearFields()
         {
             Surname = string.Empty;
-            Name = string.Empty;
+            FirstName = string.Empty;
             Address = string.Empty;
             Phone = string.Empty;
             Email = string.Empty;
             IdNumber = string.Empty;
             Vocation = string.Empty;
             YearsOfService = 0;
+            DateOfBirth = null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

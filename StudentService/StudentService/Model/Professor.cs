@@ -9,6 +9,7 @@ namespace StudentService.Model
 {
     public class Professor : ISerializable
     {
+        public string DisplayText => $"{Name} {Surname} - {Vocation}";
         public int Id { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }

@@ -14,14 +14,17 @@ namespace StudentService.Gui
     public partial class ViewSubject : Window, IObserver
     {
         public ObservableCollection<Subject> Subjects { get; set; }
+        public ObservableCollection<Professor> Professors { get; set; }
         public Subject SelectedSubject { get; set; }
         private SubjectDao subjectDao;
-
+        private ProfessorDao professorDao;
         public ViewSubject()
         {
             InitializeComponent();
             subjectDao = new SubjectDao();
+            professorDao = new ProfessorDao();
             Subjects = new ObservableCollection<Subject>();
+            Professors = new ObservableCollection<Professor>();
             Update();
             subjectDao.SubjectSubject.Subscribe(this);
             DataContext = this;
@@ -39,7 +42,7 @@ namespace StudentService.Gui
 
         private void Button_ClickCreate(object sender, RoutedEventArgs e)
         {
-            CreateSubject createSubject = new CreateSubject(subjectDao);
+            CreateSubject createSubject = new CreateSubject(subjectDao,professorDao);
             createSubject.Show();
         }
 
@@ -53,7 +56,7 @@ namespace StudentService.Gui
             // Make sure to handle errors gracefully in the update process
             try
             {
-                UpdateSubject updateSubject = new UpdateSubject(SelectedSubject, subjectDao);
+                UpdateSubject updateSubject = new UpdateSubject(SelectedSubject, subjectDao, professorDao);
                 updateSubject.ShowDialog(); // Changed to ShowDialog
             }
             catch (Exception ex)

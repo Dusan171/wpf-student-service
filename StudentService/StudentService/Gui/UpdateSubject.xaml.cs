@@ -1,11 +1,11 @@
-﻿
-using StudentService.Model;
+﻿using StudentService.Model;
 using StudentService.DAO;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using StudentService.Model.Enums;
-using System.Linq;
 
 namespace StudentService.Gui
 {
@@ -15,9 +15,22 @@ namespace StudentService.Gui
     public partial class UpdateSubject : Window, INotifyPropertyChanged
     {
         private readonly SubjectDao subjectDao;
+        private readonly ProfessorDao professorDao;
         private Subject currentSubject;
 
-        // ublic int Id { get; set; }
+        public ObservableCollection<Semester> AvailableSemesters { get; set; }
+        public ObservableCollection<Professor> AvailableProfessors { get; set; }
+        public Semester SemesterStud
+        {
+            get => currentSubject.Semester;
+            set
+            {
+                currentSubject.Semester = value;
+                OnPropertyChanged(nameof(SemesterStud));
+            }
+        }
+        public ObservableCollection<Professor> Professors { get; set; } = new ObservableCollection<Professor>();
+
         public int Id
         {
             get => currentSubject.Id;
@@ -27,7 +40,7 @@ namespace StudentService.Gui
                 OnPropertyChanged(nameof(Id));
             }
         }
-        //public string Code { get; set; }
+
         public string Code
         {
             get => currentSubject.Code;
@@ -35,29 +48,21 @@ namespace StudentService.Gui
             {
                 currentSubject.Code = value;
                 OnPropertyChanged(nameof(Code));
+                OnPropertyChanged(nameof(IsValid));
             }
         }
-        //public string Name { get; set; }
-        public string Name
+
+        public string NameSubj
         {
             get => currentSubject.Name;
             set
             {
                 currentSubject.Name = value;
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(NameSubj));
+                OnPropertyChanged(nameof(IsValid));
             }
         }
-        // public Semester Semester { get; set; }
-        public Semester Semester
-        {
-            get => currentSubject.Semester;
-            set
-            {
-                currentSubject.Semester = value;
-                OnPropertyChanged(nameof(Semester));
-            }
-        }
-        // public int YearOfStudy { get; set; }
+
         public int YearOfStudy
         {
             get => currentSubject.YearOfStudy;
@@ -65,19 +70,21 @@ namespace StudentService.Gui
             {
                 currentSubject.YearOfStudy = value;
                 OnPropertyChanged(nameof(YearOfStudy));
+                OnPropertyChanged(nameof(IsValid));
             }
         }
-        // public Professor Professor { get; set; }
+
         public Professor Professor
         {
             get => currentSubject.Professor;
-            set 
+            set
             {
                 currentSubject.Professor = value;
                 OnPropertyChanged(nameof(Professor));
+                OnPropertyChanged(nameof(IsValid));
             }
         }
-        // public int Espb { get; set; }
+
         public int Espb
         {
             get => currentSubject.Espb;
@@ -85,54 +92,48 @@ namespace StudentService.Gui
             {
                 currentSubject.Espb = value;
                 OnPropertyChanged(nameof(Espb));
-            }
-        }
-        // public List<Student> PassedStudents { get; set; }
-        public List<Student> PassedStudents
-        {
-            get => currentSubject.PassedStudents;
-            set 
-            {
-                currentSubject.PassedStudents = value;
-                OnPropertyChanged(nameof(PassedStudents));
-            }
-        }
-        // public List<Student> AttendingStudents { get; set; }
-        public List<Student> AttendingStudents
-        {
-            get => currentSubject.AttendingStudents;
-            set 
-            {
-                currentSubject.AttendingStudents = value;
-                OnPropertyChanged(nameof(AttendingStudents));
+                OnPropertyChanged(nameof(IsValid));
             }
         }
 
-        public UpdateSubject(Subject subject, SubjectDao subjectDao)
+        public bool IsValid =>
+            !string.IsNullOrWhiteSpace(Code) &&
+            !string.IsNullOrWhiteSpace(NameSubj) &&
+            YearOfStudy > 0 &&
+            Espb > 0 &&
+            Professor != null;
+
+        public UpdateSubject(Subject subject, SubjectDao subjectDao, ProfessorDao professorDao)
         {
             InitializeComponent();
             this.subjectDao = subjectDao;
+            this.professorDao = professorDao;
+            
+            AvailableSemesters = new ObservableCollection<Semester>(Enum.GetValues(typeof(Semester)).Cast<Semester>());
+            AvailableProfessors = new ObservableCollection<Professor>(professorDao.GetAll());
+
             this.currentSubject = subject;
+
+            SemesterStud = subject.Semester;
+            Professor = subject.Professor;
+            // LoadProfessors();
+
             DataContext = this;
         }
-
         private void UpdateSubjectButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // Validate fields before update
-                if (string.IsNullOrEmpty(Code) || string.IsNullOrEmpty(Name))
+                if (!IsValid)
                 {
-                    MessageBox.Show("Code and Name cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("All fields must be valid before updating the subject.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 subjectDao.UpdateSubject(currentSubject);
 
-                // Feedback on success
                 MessageBox.Show("Subject updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Optional: Refresh the UI or close the window
                 Close();
             }
             catch (Exception ex)
@@ -141,7 +142,13 @@ namespace StudentService.Gui
             }
         }
 
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

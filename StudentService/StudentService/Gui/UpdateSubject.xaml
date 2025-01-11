@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StudentService.Gui"
         mc:Ignorable="d"
-        Title="UpdateSubject" Height="450" Width="800">
+        Title="Update Subject" Height="450" Width="800">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -28,28 +27,31 @@
 
         <!-- Name -->
         <Label Content="Name:" VerticalAlignment="Center" Grid.Row="2"/>
-        <TextBox x:Name="NameTextBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="2" Margin="100,0,0,0"/>
+        <TextBox x:Name="NameTextBox" Text="{Binding NameSubj, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="2" Margin="100,0,0,0"/>
 
         <!-- Semester -->
         <Label Content="Semester:" VerticalAlignment="Center" Grid.Row="3"/>
-        <ComboBox x:Name="SemesterComboBox" ItemsSource="{Binding StudentSemester}" SelectedItem="{Binding Semester}" DisplayMemberPath="Name" VerticalAlignment="Center" Grid.Row="3" Margin="100,0,0,0"/>
+        <ComboBox x:Name="SemesterComboBox" ItemsSource="{Binding AvailableSemesters}" 
+                  SelectedItem="{Binding SemesterStud}" VerticalAlignment="Center" Grid.Row="3" Margin="100,0,0,0"/>
 
         <!-- Year of Study -->
         <Label Content="Year of Study:" VerticalAlignment="Center" Grid.Row="4"/>
-        <TextBox x:Name="YearofStudyTextBox" Text="{Binding YearOfStudy, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="4" Margin="100,0,0,0"/>
+        <TextBox x:Name="YearOfStudyTextBox" Text="{Binding YearOfStudy, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="4" Margin="100,0,0,0"/>
 
         <!-- Professor -->
         <Label Content="Professor:" VerticalAlignment="Center" Grid.Row="5"/>
-        <ComboBox x:Name="ProfessorComboBox" ItemsSource="{Binding Professors}" SelectedItem="{Binding Professor}" DisplayMemberPath="Name" VerticalAlignment="Center" Grid.Row="5" Margin="100,0,0,0"/>
+        <ComboBox x:Name="ProfessorComboBox" ItemsSource="{Binding AvailableProfessors}" 
+                  SelectedItem="{Binding Professor, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="DisplayText" 
+                  VerticalAlignment="Center" Grid.Row="5" Margin="100,0,0,0"/>
 
         <!-- ESPB -->
         <Label Content="Espb:" VerticalAlignment="Center" Grid.Row="6"/>
         <TextBox x:Name="EspbTextBox" Text="{Binding Espb, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Row="6" Margin="100,0,0,0"/>
 
-        <!-- Buttons (Update, Clear, Cancel) -->
+        <!-- Buttons (Update, Cancel) -->
         <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,20,0,0">
             <Button Content="Update" Width="100" Margin="5" Click="UpdateSubjectButton_Click"/>
-        
+            <Button Content="Cancel" Width="100" Margin="5" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
